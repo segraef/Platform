@@ -1,0 +1,55 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "MemoryPagesPerSecondTooHigh"
+        },
+        "alertDescription": {
+            "value": "Memory pages per second too high"
+        },
+        "severity": {
+            "value": 3
+        },
+        "actions": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.insights/actiongroups/prfx-mgmt-ae-ag-001"
+            ]
+        },
+        "scopes": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.operationalinsights/workspaces/prfx-mgmt-ae-log-001"
+            ]
+        },
+        "evaluationFrequency": {
+            "value": "PT5M"
+        },
+        "windowSize": {
+            "value": "PT5M"
+        },
+        "suppressForMinutes": {
+            "value": "PT5M"
+        },
+        "queryTimeRange": {
+            "value": "PT5M"
+        },
+        "autoMitigate": {
+            "value": false
+        },
+        "criterias": {
+            "value": {
+                "allOf": [{
+                    "query": "Perf | where ObjectName == \"Process\" | where CounterName == \"Used Memory kBytes\" | summarize by CounterValue, InstanceName | top 10 by CounterValue desc",
+                    "timeAggregation": "Count",
+                    "dimensions": [],
+                    "operator": "GreaterThan",
+                    "threshold": 0,
+                    "failingPeriods": {
+                        "numberOfEvaluationPeriods": 1,
+                        "minFailingPeriodsToAlert": 1
+                    }
+                }]
+            }
+        }
+    }
+}

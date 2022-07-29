@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "pe-mgmt-ae-Webhook-001"
+        },
+        "targetSubnetResourceId": {
+            "value": "subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-network-rg/providers/Microsoft.Network/virtualNetworks/prfx-mgmt-ae-spoke-vnet01/subnets/pe"
+        },
+        "serviceResourceId": {
+            "value": "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-automation-rg/providers/Microsoft.Automation/automationAccounts/prfx-mgmt-ae-aa001"
+        },
+        "groupId": {
+            "value": [
+                "Webhook"
+            ]
+        },
+        "privateDnsZoneGroups": {
+            "value": [{
+                "privateDNSResourceIds": [
+                    "/subscriptions/eda24dea-c2b6-4339-b351-21fd78577b4c/resourceGroups/prfx-id-ae-network-rg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
+                ]
+            }]
+        }
+    }
+}

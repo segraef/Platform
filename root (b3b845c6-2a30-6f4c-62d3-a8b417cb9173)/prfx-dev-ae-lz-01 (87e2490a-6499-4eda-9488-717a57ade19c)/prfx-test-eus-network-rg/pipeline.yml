@@ -1,0 +1,37 @@
+name: $(resourceGroupName)
+
+trigger:
+  branches:
+    include:
+      - notrigger
+  paths:
+    include:
+      - root/prfx-test-ae-lz-02 (b3a91daa-5432-499b-aec9-11a9e1ad4d1e)/prfx-test-ae-network-rg/*
+
+variables:
+  - template: pipeline.variables.yml
+  - template: /.pipelines/.templates/pipeline.artifacts.yml
+
+stages:
+  - stage: Plan
+    jobs:
+      - template: ./pipeline.jobs.yml
+        parameters:
+          vmImage: '$(vmImage)'
+          poolName: '$(poolName)'
+          serviceConnection: '$(serviceConnection)'
+          resourceGroupName: '$(resourceGroupName)'
+          parameterFilePath: ''
+          environment: TEST
+          whatif: true
+  - stage: Deployment
+    jobs:
+      - template: ./pipeline.jobs.yml
+        parameters:
+          vmImage: '$(vmImage)'
+          poolName: '$(poolName)'
+          serviceConnection: '$(serviceConnection)'
+          resourceGroupName: '$(resourceGroupName)'
+          parameterFilePath: ''
+          environment: TEST
+          whatif: false

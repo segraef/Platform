@@ -1,0 +1,38 @@
+name: $(resourceGroupName)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - root/prfx-management-ae-01 (c3aa5bd4-c74d-47eb-ad55-e5a604e7122a)/prfx-mgmt-ae-devops-rg/*
+
+variables:
+  - template: pipeline.variables.yml
+  - template: /.pipelines/.templates/pipeline.artifacts.yml
+
+stages:
+  - stage: Plan
+    jobs:
+      - template: ./pipeline.jobs.yml
+        parameters:
+          vmImage: '$(vmImage)'
+          poolName: '$(poolName)'
+          serviceConnection: '$(serviceConnection)'
+          resourceGroupName: '$(resourceGroupName)'
+          parameterFilePath: ''
+          environment: MGMT
+          whatif: true
+
+  - stage: Deployment
+    jobs:
+      - template: ./pipeline.jobs.yml
+        parameters:
+          vmImage: '$(vmImage)'
+          poolName: '$(poolName)'
+          serviceConnection: '$(serviceConnection)'
+          resourceGroupName: '$(resourceGroupName)'
+          parameterFilePath: ''
+          environment: MGMT
+          whatif: false

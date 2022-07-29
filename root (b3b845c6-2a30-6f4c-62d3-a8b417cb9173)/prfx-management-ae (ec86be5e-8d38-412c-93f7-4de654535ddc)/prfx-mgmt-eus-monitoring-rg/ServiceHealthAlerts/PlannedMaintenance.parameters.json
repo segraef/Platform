@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "prfx-mgmt-ae-pm-alert"
+        },
+        "scopes": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a",
+                "/subscriptions/eda24dea-c2b6-4339-b351-21fd78577b4c",
+                "/subscriptions/eda24dea-c2b6-4339-b351-21fd78577b4c",
+                "/subscriptions/eda24dea-c2b6-4339-b351-21fd78577b4c",
+                "/subscriptions/efd644f3-9547-4457-a6af-9c3d8ab94801",
+                "/subscriptions/b3a91daa-5432-499b-aec9-11a9e1ad4d1e",
+                "/subscriptions/2969c068-a5ec-4c6f-94f9-bf7c83f02a37"
+            ]
+        },
+        "conditions": {
+            "value": [{
+                    "field": "category",
+                    "equals": "ServiceHealth"
+                },
+                {
+                    "field": "properties.incidentType",
+                    "equals": "Maintenance"
+                },
+                {
+                    "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                    "containsAny": [
+                        "Australia East",
+                        "West US"
+                    ]
+                }
+            ]
+        },
+        "actions": {
+            "value": [{
+                "actionGroupId": "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.insights/actiongroups/prfx-mgmt-ae-sh-ag-001"
+            }]
+        }
+    }
+}

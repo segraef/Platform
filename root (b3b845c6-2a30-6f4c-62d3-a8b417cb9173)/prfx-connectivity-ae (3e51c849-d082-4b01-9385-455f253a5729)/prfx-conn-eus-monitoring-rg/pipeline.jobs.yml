@@ -1,0 +1,62 @@
+# Artifacts need to be set in Platform\.pipelines\.templates\pipeline.artifacts.yml to be used for moduleName and moduleVersion.
+
+parameters:
+  vmImage: $(vmImage)
+  poolName: $(poolName)
+  serviceConnection: '$(serviceConnection)'
+  environment: ''
+  whatif: false
+
+jobs:
+  # Resource Group
+  # --------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Deploy_ResourceGroup
+      displayName: 'Deploy ResourceGroup'
+      moduleName: '$(RGModuleName)'
+      moduleVersion: '$(RGModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+
+
+  # Alert Action Group
+  # --------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Create_MonitoringActionGroup
+      displayName: 'Create Action Group for monitoring alerts'
+      moduleName: '$(ActionGroupModuleName)'
+      moduleVersion: '$(ActionGroupModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/actionGroups/parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+      dependsOn:
+            - Deploy_ResourceGroup
+
+  # Matrix alert for application gateway unhealthy host
+  # --------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Create_ApplicationGatewayUnhealthy
+      displayName: 'Create matrix alert for unhealthy host'
+      moduleName: '$(MetricAlertModuleName)'
+      moduleVersion: '$(MetricAlertModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/metricAlerts/unhealthyhost.parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+      dependsOn:
+            - Create_MonitoringActionGroup

@@ -1,0 +1,83 @@
+# Artifacts need to be set in Platform\.pipelines\.templates\pipeline.artifacts.yml to be used for moduleName and moduleVersion.
+
+parameters:
+  vmImage: $(vmImage)
+  poolName: $(poolName)
+  serviceConnection: '$(serviceConnection)'
+  environment: ''
+  whatif: false
+
+jobs:
+  # Resource Group
+  # --------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Deploy_ResourceGroup
+      displayName: 'Deploy ResourceGroup'
+      moduleName: '$(RGModuleName)'
+      moduleVersion: '$(RGModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+  
+  # Automation account
+  # --------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Deploy_AutomationAccounts
+      displayName: 'Deploy Automation account'
+      moduleName: '$(AAModuleName)'
+      moduleVersion: '$(AAModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/automationAccounts/parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+      dependsOn:
+        - Deploy_ResourceGroup
+
+  # Deploy Private Endpoints
+  # ----------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Deploy_PE_DSC
+      displayName: 'Deploy Private Endpoints-DSC'
+      moduleName: '$(PEModuleName)'
+      moduleVersion: '$(PEModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/PrivateEndpoints/DSC.parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+      dependsOn:
+        - Deploy_AutomationAccounts
+
+ # Deploy Private Endpoints
+  # ----------------
+  - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+    parameters:
+      jobName: Deploy_PE
+      displayName: 'Deploy Private Endpoints-webhook'
+      moduleName: '$(PEModuleName)'
+      moduleVersion: '$(PEModuleVersion)'
+      parameterFilePath: '${{ parameters.resourceGroupName }}/PrivateEndpoints/Webhook.parameters.json'
+      vmImage: '${{ parameters.vmImage }}'
+      poolName: '${{ parameters.poolName }}'
+      serviceConnection: '${{ parameters.serviceConnection }}'
+      environment: '${{ parameters.environment }}'
+      whatif: '${{ parameters.whatif }}'
+      enabled: true
+      dependsOn:
+        - Deploy_AutomationAccounts
+        - Deploy_PE_DSC     
+
+     
+
