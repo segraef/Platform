@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "HeartBeatZero"
+        },
+        "windowSize": {
+            "value": "PT5M"
+        },
+        "actions": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.insights/actiongroups/prfx-mgmt-ae-ag-001"
+            ]
+        },
+        "targetResourceType": {
+            "value": "Microsoft.OperationalInsights/workspaces"
+        },
+        "targetResourceRegion": {
+            "value": "global"
+        },
+        "criterias": {
+            "value": [{
+                "criterionType": "StaticThresholdCriterion",
+                "metricName": "Heartbeat",
+                "metricNamespace": "Microsoft.OperationalInsights/workspaces",
+                "name": "HeartbeatLessThenZero",
+                "operator": "LessThanOrEqual",
+                "threshold": "0",
+                "timeAggregation": "Total"
+            }]
+        },
+        "alertCriteriaType": {
+            "value": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+        },
+        "scopes": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.operationalinsights/workspaces/prfx-mgmt-ae-log-001"
+            ]
+        }
+    }
+}

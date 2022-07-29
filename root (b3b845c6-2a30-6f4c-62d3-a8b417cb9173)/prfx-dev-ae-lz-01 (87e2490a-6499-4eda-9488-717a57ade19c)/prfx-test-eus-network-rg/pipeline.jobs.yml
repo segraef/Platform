@@ -1,0 +1,112 @@
+parameters:
+      vmImage: $(vmImage)
+      poolName: $(poolName)
+      serviceConnection: '$(serviceConnection)'
+      environment: ''
+      whatif: false
+
+jobs:
+      # Resource Group
+      # --------------
+      - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+        parameters:
+              jobName: Deploy_ResourceGroup
+              displayName: 'Deploy ResourceGroup'
+              moduleName: '$(RGModuleName)'
+              moduleVersion: '$(RGModuleVersion)'
+              parameterFilePath: '${{ parameters.resourceGroupName }}/parameters.json'
+              vmImage: '${{ parameters.vmImage }}'
+              poolName: '${{ parameters.poolName }}'
+              serviceConnection: '${{ parameters.serviceConnection }}'
+              environment: '${{ parameters.environment }}'
+              whatif: '${{ parameters.whatif }}'
+              enabled: true
+
+      # NSG for app service
+      # --------------
+      - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+        parameters:
+              jobName: Deploy_APP_NSG
+              displayName: 'Deploy NSG for application'
+              moduleName: '$(NsgModuleName)'
+              moduleVersion: '$(NsgModuleVersion)'
+              parameterFilePath: '${{ parameters.resourceGroupName }}/networkSecurityGroups/prfx-test-ae-app-nsg.parameters.json'
+              vmImage: '${{ parameters.vmImage }}'
+              poolName: '${{ parameters.poolName }}'
+              serviceConnection: '${{ parameters.serviceConnection }}'
+              environment: '${{ parameters.environment }}'
+              whatif: '${{ parameters.whatif }}'
+              enabled: true
+              dependsOn:
+                    - Deploy_ResourceGroup
+
+      # NSG for database
+      # --------------
+      - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+        parameters:
+              jobName: Deploy_DB_NSG
+              displayName: 'Deploy NSG for DB'
+              moduleName: '$(NsgModuleName)'
+              moduleVersion: '$(NsgModuleVersion)'
+              parameterFilePath: '${{ parameters.resourceGroupName }}/networkSecurityGroups/prfx-test-ae-db-nsg.parameters.json'
+              vmImage: '${{ parameters.vmImage }}'
+              poolName: '${{ parameters.poolName }}'
+              serviceConnection: '${{ parameters.serviceConnection }}'
+              environment: '${{ parameters.environment }}'
+              whatif: '${{ parameters.whatif }}'
+              enabled: true
+              dependsOn:
+                    - Deploy_ResourceGroup
+
+      # NSG for Frontend
+      # --------------
+      - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+        parameters:
+              jobName: Deploy_FE_NSG
+              displayName: 'Deploy NSG for Frontend'
+              moduleName: '$(NsgModuleName)'
+              moduleVersion: '$(NsgModuleVersion)'
+              parameterFilePath: '${{ parameters.resourceGroupName }}/networkSecurityGroups/prfx-test-ae-fe-nsg.parameters.json'
+              vmImage: '${{ parameters.vmImage }}'
+              poolName: '${{ parameters.poolName }}'
+              serviceConnection: '${{ parameters.serviceConnection }}'
+              environment: '${{ parameters.environment }}'
+              whatif: '${{ parameters.whatif }}'
+              enabled: true
+              dependsOn:
+                    - Deploy_ResourceGroup
+
+      # NSG for Private end point
+      # --------------
+      - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+        parameters:
+              jobName: Deploy_PE_NSG
+              displayName: 'Deploy NSG for Private endpoints'
+              moduleName: '$(NsgModuleName)'
+              moduleVersion: '$(NsgModuleVersion)'
+              parameterFilePath: '${{ parameters.resourceGroupName }}/networkSecurityGroups/prfx-test-ae-pe-nsg.parameters.json'
+              vmImage: '${{ parameters.vmImage }}'
+              poolName: '${{ parameters.poolName }}'
+              serviceConnection: '${{ parameters.serviceConnection }}'
+              environment: '${{ parameters.environment }}'
+              whatif: '${{ parameters.whatif }}'
+              enabled: true
+              dependsOn:
+                    - Deploy_ResourceGroup
+      # common route table
+      # --------------
+      - template: /.pipelines/.templates/pipeline.jobs.artifact.deploy.yml
+        parameters:
+              jobName: Deploy_ROUTE_Table
+              displayName: 'Deploy route table'
+              moduleName: '$(RouteTablesModuleName)'
+              moduleVersion: '$(RouteTablesModuleVersion)'
+              parameterFilePath: '${{ parameters.resourceGroupName }}/routeTables/parameters.json'
+              vmImage: '${{ parameters.vmImage }}'
+              poolName: '${{ parameters.poolName }}'
+              serviceConnection: '${{ parameters.serviceConnection }}'
+              environment: '${{ parameters.environment }}'
+              whatif: '${{ parameters.whatif }}'
+              enabled: true
+              dependsOn:
+                    - Deploy_ResourceGroup

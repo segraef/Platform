@@ -1,0 +1,37 @@
+name: $(resourceGroupName)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - root/prfx-prod-ae-lz-02 (efd644f3-9547-4457-a6af-9c3d8ab94801)/prfx-prod-nw-rg/*
+
+variables:
+  - template: pipeline.variables.yml
+  - template: /.pipelines/.templates/pipeline.artifacts.yml
+
+stages:
+  - stage: Plan
+    jobs:
+      - template: ./pipeline.jobs.yml
+        parameters:
+          vmImage: '$(vmImage)'
+          poolName: '$(poolName)'
+          serviceConnection: '$(serviceConnection)'
+          resourceGroupName: '$(resourceGroupName)'
+          parameterFilePath: ''
+          environment: PROD
+          whatif: true
+  - stage: Deployment
+    jobs:
+      - template: ./pipeline.jobs.yml
+        parameters:
+          vmImage: '$(vmImage)'
+          poolName: '$(poolName)'
+          serviceConnection: '$(serviceConnection)'
+          resourceGroupName: '$(resourceGroupName)'
+          parameterFilePath: ''
+          environment: PROD
+          whatif: false

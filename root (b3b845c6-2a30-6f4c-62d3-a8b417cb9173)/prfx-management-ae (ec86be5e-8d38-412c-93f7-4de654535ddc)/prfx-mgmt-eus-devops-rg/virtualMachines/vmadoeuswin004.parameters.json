@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "vmadoaewin004"
+        },
+        "imageReference": {
+            "value": {
+                "publisher": "MicrosoftWindowsServer",
+                "offer": "WindowsServer",
+                "sku": "2019-datacenter-gensecond",
+                "version": "latest"
+            }
+        },
+        "osType": {
+            "value": "Windows"
+        },
+        "vmSize": {
+            "value": "Standard_B12ms"
+        },
+        "encryptionAtHost": {
+            "value": false
+        },
+        "osDisk": {
+            "value": {
+                "diskSizeGB": "128",
+                "managedDisk": {
+                    "storageAccountType": "Premium_LRS"
+                }
+            }
+        },
+        "adminUsername": {
+            "value": "<<GENERIC_VALUE>>"
+        },
+        "adminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-devops-rg/providers/Microsoft.KeyVault/vaults/prfx-mgmt-ae-kv-009"
+                },
+                "secretName": "adminPassword"
+            }
+        },
+        "nicConfigurations": {
+            "value": [{
+                "nicSuffix": "-nic-01",
+                "ipConfigurations": [{
+                    "name": "ipconfig01",
+                    "subnetId": "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-network-rg/providers/Microsoft.Network/virtualNetworks/prfx-mgmt-ae-spoke-vnet01/subnets/subnet"
+                }]
+            }]
+        }
+    }
+}

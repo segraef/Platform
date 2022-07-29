@@ -1,0 +1,7 @@
+variables:
+  resourceGroupName: 'prfx-prod-ae-network-rg'
+  environmentPath: 'root/prfx-prod-ae-lz-02 (efd644f3-9547-4457-a6af-9c3d8ab94801)'
+  location: 'Australia East'
+  vmImage: 'ubuntu-latest'
+  poolName: 'prfx-Prod-WindowsPool-001'
+  serviceConnection: 'prfx-prod-lz-sp'

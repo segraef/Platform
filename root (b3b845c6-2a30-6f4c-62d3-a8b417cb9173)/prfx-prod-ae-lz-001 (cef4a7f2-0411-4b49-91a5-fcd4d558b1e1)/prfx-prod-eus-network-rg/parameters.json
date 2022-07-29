@@ -1,0 +1,17 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "prfx-prod-ae-network-rg"
+        },
+        "roleAssignments": {
+            "value": [{
+                "roleDefinitionIdOrName": "Contributor",
+                "principalIds": [
+                    "5c809337-eba9-427a-808a-af09a9abd2b1"
+                ]
+            }]
+        }
+    }
+}

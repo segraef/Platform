@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "prfx-mgmt-ae-aa001"
+        },
+        "location": {
+            "value": "eastus2"
+        },
+        "modules": {
+            "value": [{
+                "name": "PSWindowsUpdate",
+                "version": "latest",
+                "uri": "https://www.powershellgallery.com/api/v2/package"
+            }]
+        },
+        "linkedWorkspaceId": {
+            "value": "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.operationalinsights/workspaces/prfx-mgmt-ae-log-001"
+        },
+        "systemAssignedIdentity": {
+            "value": true
+        }
+    }
+}
