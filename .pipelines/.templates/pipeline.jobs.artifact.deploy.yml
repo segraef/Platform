@@ -5,7 +5,7 @@ parameters:
   parameterFilePath:
   dependsOn: []
   environment: ''
-  timeoutInMinutes: 0
+  timeoutInMinutes: 90
   artifactFeedPath: '$(artifactFeedPath)'
   serviceConnection: '$(serviceConnection)'
   vmImage: $(vmImage)
@@ -68,21 +68,10 @@ jobs:
                 inline: |
                   $templateFilePath = Join-Path "$(downloadDirectory)/${{ parameters.moduleName }}" 'deploy.json'
                   Write-Verbose "Got path: $templateFilePath" -Verbose
-                  Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
-                  Get-ChildItem $(downloadDirectory) -recurse
-
                   $whatIf = [System.Convert]::ToBoolean('${{ parameters.whatif }}')
-                  $moduleName = "${{ parameters.moduleName }}"
-                  $moduleName[0..20] -join ""
-
-                  $moduleName = "${{ parameters.moduleName }}"
-                  $moduleName = $moduleName[0..20] -join ""
-                  $deploymentName = "$moduleName-$(-join (Get-Date -Format yyyyMMddTHHMMssffffZ)[0..43])"
-                  $deploymentName
 
                   $DeploymentInputs = @{
-                    DeploymentName        = "$moduleName-$(-join (Get-Date -Format yyyyMMddTHHMMssffffZ)[0..43])"
-
+                    DeploymentName        = "${{ parameters.moduleName }}-$(-join (Get-Date -Format yyyyMMddTHHMMssffffZ)[0..63])"
                     TemplateFile          = $templateFilePath
                     TemplateParameterFile = "$(Build.SourcesDirectory)/$(environmentPath)/${{ parameters.parameterFilePath }}"
                     Verbose               = $true
