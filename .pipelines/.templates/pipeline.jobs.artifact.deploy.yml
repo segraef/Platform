@@ -69,7 +69,8 @@ jobs:
                   $templateFilePath = Join-Path "$(downloadDirectory)/${{ parameters.moduleName }}" 'deploy.json'
                   Write-Verbose "Got path: $templateFilePath" -Verbose
                   Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
-                  Get-ChildItem $(downloadDirectory) -recurse | select FullName -Verbose
+                  Get-ChildItem $(downloadDirectory) -recurse
+                  gci "$(downloadDirectory)/${{ parameters.moduleName }}" -recurse
 
                   $whatIf = [System.Convert]::ToBoolean('${{ parameters.whatif }}')
                   $moduleName = "${{ parameters.moduleName }}"
