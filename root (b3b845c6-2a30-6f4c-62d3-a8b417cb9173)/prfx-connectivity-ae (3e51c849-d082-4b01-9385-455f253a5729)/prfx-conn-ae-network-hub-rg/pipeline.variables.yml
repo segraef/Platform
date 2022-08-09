@@ -1,0 +1,7 @@
+variables:
+  resourceGroupName: 'prfx-conn-ae-network-hub-rg'
+  environmentPath: 'root/prfx-connectivity-ae (3e51c849-d082-4b01-9385-455f253a5729)'
+  location: 'Australia East'
+  vmImage: 'ubuntu-latest'
+  poolName: ''
+  serviceConnection: 'CARML-CSU-Tenant-Connection'

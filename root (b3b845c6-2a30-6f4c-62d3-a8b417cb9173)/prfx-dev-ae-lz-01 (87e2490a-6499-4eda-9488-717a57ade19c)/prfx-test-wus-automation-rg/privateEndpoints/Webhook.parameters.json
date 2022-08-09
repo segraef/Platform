@@ -22,7 +22,7 @@
         "privateDnsZoneGroups": {
             "value": [{
                 "privateDNSResourceIds": [
-                    "/subscriptions/eda24dea-c2b6-4339-b351-21fd78577b4c/resourceGroups/prfx-id-ae-network-rg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
+                    "/subscriptions/<<subscriptionid>>/resourceGroups/prfx-id-ae-network-rg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
                 ]
             }]
         }

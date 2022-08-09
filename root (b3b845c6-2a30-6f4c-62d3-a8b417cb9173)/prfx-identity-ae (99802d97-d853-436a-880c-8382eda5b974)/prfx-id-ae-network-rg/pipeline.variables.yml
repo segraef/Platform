@@ -1,5 +1,5 @@
 variables:
-  resourceGroupName: 'prfx-id-nw-rg'
+  resourceGroupName: 'prfx-id-ae-network-rg'
   environmentPath: 'root/prfx-identity-ae-01 (<<subscriptionid>>)'
   location: 'Australia East'
   vmImage: 'ubuntu-latest'

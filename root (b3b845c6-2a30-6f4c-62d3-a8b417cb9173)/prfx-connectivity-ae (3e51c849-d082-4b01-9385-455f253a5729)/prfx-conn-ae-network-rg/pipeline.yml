@@ -3,10 +3,10 @@ name: $(resourceGroupName)
 trigger:
   branches:
     include:
-      - main
+      - notrigger
   paths:
     include:
-      - root/prfx-identity-ae-01 (<<subscriptionid>>)/prfx-id-nw-rg/*
+      - root/prfx-connectivity-ae-01 (<<subscriptionid>>)/prfx-conn-ae-network-rg/*
 
 variables:
   - template: pipeline.variables.yml
@@ -22,7 +22,7 @@ stages:
           serviceConnection: '$(serviceConnection)'
           resourceGroupName: '$(resourceGroupName)'
           parameterFilePath: ''
-          environment: ID
+          environment: CONN
           whatif: true
   - stage: Deployment
     jobs:
@@ -33,5 +33,5 @@ stages:
           serviceConnection: '$(serviceConnection)'
           resourceGroupName: '$(resourceGroupName)'
           parameterFilePath: ''
-          environment: ID
+          environment: CONN
           whatif: false

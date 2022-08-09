@@ -6,7 +6,7 @@ trigger:
       - main
   paths:
     include:
-      - root/prfx-identity-ae-01 (<<subscriptionid>>)/prfx-id-nw-rg/*
+      - root/prfx-identity-ae-01 (<<subscriptionid>>)/prfx-id-ae-network-rg/*
 
 variables:
   - template: pipeline.variables.yml

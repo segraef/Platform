@@ -6,94 +6,94 @@ variables:
 
   # Artifacts
   RGModuleName: 'Microsoft.resources.resourcegroups'
-  RGModuleVersion: '*'
+  RGModuleVersion: '0.5.1296-prerelease'
 
   VnetModuleName: 'Microsoft.Network.virtualnetworks'
-  VnetModuleVersion: '*'
+  VnetModuleVersion: '0.5.1296-prerelease'
 
   RouteTablesModuleName: 'Microsoft.Network.RouteTables'
-  RouteTablesModuleVersion: '*'
+  RouteTablesModuleVersion: '0.5.1296-prerelease'
 
   NsgModuleName: 'Microsoft.Network.networksecuritygroups'
-  NsgModuleVersion: '*'
+  NsgModuleVersion: '0.5.1296-prerelease'
 
   AzureBastionModuleName: 'Microsoft.Network.bastionhosts'
-  AzureBastionModuleVersion: '*'
+  AzureBastionModuleVersion: '0.5.1296-prerelease'
 
   NetworkWatcherModuleName: 'Microsoft.Network.networkWatchers'
-  NetworkWatcherModuleVersion: '*'
+  NetworkWatcherModuleVersion: '0.5.1296-prerelease'
 
   StorageAccountsModuleName: 'Microsoft.Storage.storageAccounts'
-  StorageAccountsModuleVersion: '*'
+  StorageAccountsModuleVersion: '0.5.1296-prerelease'
 
   KVModuleName: 'Microsoft.keyvault.vaults'
-  KVModuleVersion: '*'
+  KVModuleVersion: '0.5.1296-prerelease'
 
   VMModuleName: 'Microsoft.compute.virtualmachines'
-  VMModuleVersion: '*'
+  VMModuleVersion: '0.5.1296-prerelease'
 
   PEModuleName: 'microsoft.network.privateendpoints'
-  PEModuleVersion: '*'
+  PEModuleVersion: '0.5.1296-prerelease'
 
   SQLMIModuleName: 'Microsoft.sql.managedinstances'
-  SQLMIModuleVersion: '*'
+  SQLMIModuleVersion: '0.5.1296-prerelease'
 
   PolicyAssignmentRGModuleName: 'Microsoft.Authorization.policyAssignments.resourcegroup'
-  PolicyAssignmentRGModuleVersion: '*'
+  PolicyAssignmentRGModuleVersion: '0.5.1296-prerelease'
 
   PolicyAssignmentSubModuleName: 'Microsoft.Authorization.policyAssignments.subscription'
-  PolicyAssignmentSubModuleVersion: '*'
+  PolicyAssignmentSubModuleVersion: '0.5.1296-prerelease'
 
   AVDWorkspaceModuleName: 'microsoft.desktopvirtualization.workspaces'
-  AVDWorkspaceModuleVersion: '*'
+  AVDWorkspaceModuleVersion: '0.5.1296-prerelease'
 
   AVDHostpoolsModuleName: 'microsoft.desktopvirtualization.hostpools'
-  AVDHostpoolsModuleVersion: '*'
+  AVDHostpoolsModuleVersion: '0.5.1296-prerelease'
 
   AVDAppgroupsModuleName: 'microsoft.desktopvirtualization.applicationgroups'
-  AVDAppgroupsModuleVersion: '*'
+  AVDAppgroupsModuleVersion: '0.5.1296-prerelease'
 
   AVDImageBuilderModuleName: 'microsoft.virtualmachineimages.imagetemplates'
-  AVDImageBuilderModuleVersion: '*'
+  AVDImageBuilderModuleVersion: '0.5.1296-prerelease'
 
   AVDGalleriesModuleName: 'microsoft.compute.galleries'
-  AVDGalleriesModuleVersion: '*'
+  AVDGalleriesModuleVersion: '0.5.1296-prerelease'
 
   AVDImagesModuleName: 'microsoft.compute.images'
-  AVDImagesModuleVersion: '*'
+  AVDImagesModuleVersion: '0.5.1296-prerelease'
 
   RSVModuleName: 'Microsoft.recoveryservices.vaults'
-  RSVModuleVersion: '*'
+  RSVModuleVersion: '0.5.1296-prerelease'
 
   LogAnalyticsModuleName: 'Microsoft.OperationalInsights.workspaces'
-  LogAnalyticsModuleVersion: '*'
+  LogAnalyticsModuleVersion: '0.5.1296-prerelease'
 
   PrivatelinkScopeModuleName: 'microsoft.insights.privatelinkscopes'
-  PrivatelinkScopeModuleVersion: '*'
+  PrivatelinkScopeModuleVersion: '0.5.1296-prerelease'
 
   RBACModuleName: 'Microsoft.authorization.roleassignments.resourcegroup'
-  RBACModuleVersion: '*'
+  RBACModuleVersion: '0.5.1296-prerelease'
 
   AAModuleName: 'Microsoft.automation.automationaccounts'
-  AAModuleVersion: '*'
+  AAModuleVersion: '0.5.1296-prerelease'
 
   ActionGroupModuleName: 'Microsoft.Insights.actionGroups'
-  ActionGroupModuleVersion: '*'
+  ActionGroupModuleVersion: '0.5.1296-prerelease'
 
   MetricAlertModuleName: 'Microsoft.Insights.metricAlerts'
-  MetricAlertModuleVersion: '*'
+  MetricAlertModuleVersion: '0.5.1296-prerelease'
 
   ScheduledQueryModuleName: 'Microsoft.Insights.scheduledQueryRules'
-  ScheduledQueryModuleVersion: '*'
+  ScheduledQueryModuleVersion: '0.5.1296-prerelease'
 
   ApplicationGatewaysModuleName: 'microsoft.network.applicationgateways'
-  ApplicationGatewaysModuleVersion: '*'
+  ApplicationGatewaysModuleVersion: '0.5.1296-prerelease'
 
   UAIModuleName: 'microsoft.managedidentity.userassignedidentities'
-  UAIModuleVersion: '*'
+  UAIModuleVersion: '0.5.1296-prerelease'
 
   PIPModuleName: 'microsoft.network.publicipaddresses'
-  PIPModuleVersion: '*'
+  PIPModuleVersion: '0.5.1296-prerelease'
 
   ActivitylogalertModuleName: 'microsoft.insights.activitylogalerts'
-  ActivitylogalertModuleVersion: '*'
+  ActivitylogalertModuleVersion: '0.5.1296-prerelease'

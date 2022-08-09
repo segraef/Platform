@@ -3,16 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "pe-test-wus-DSCAndHybridWorker-001"
-        },
-        "location": {
-            "value": "Eastus"
+            "value": "pe-mgmt-ae-DSCAndHybridWorker-001"
         },
         "targetSubnetResourceId": {
-            "value": "subscriptions/b3a91daa-5432-499b-aec9-11a9e1ad4d1e/resourceGroups/prfx-test-ae-network-rg/providers/Microsoft.Network/virtualNetworks/prfx-test-ae-spoke-vnet01/subnets/pe"
+            "value": "subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-network-rg/providers/Microsoft.Network/virtualNetworks/prfx-mgmt-ae-spoke-vnet01/subnets/pe"
         },
         "serviceResourceId": {
-            "value": "/subscriptions/b3a91daa-5432-499b-aec9-11a9e1ad4d1e/resourceGroups/prfx-test-wus-automation-rg/providers/Microsoft.Automation/automationAccounts/prfx-test-wus-aa001"
+            "value": "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourceGroups/prfx-mgmt-ae-automation-rg/providers/Microsoft.Automation/automationAccounts/prfx-mgmt-ae-aa001"
         },
         "groupId": {
             "value": [

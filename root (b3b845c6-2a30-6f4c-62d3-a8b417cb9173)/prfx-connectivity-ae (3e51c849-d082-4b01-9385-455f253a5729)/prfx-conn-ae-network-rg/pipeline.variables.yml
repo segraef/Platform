@@ -1,5 +1,5 @@
 variables:
-  resourceGroupName: 'prfx-conn-nw-rg'
+  resourceGroupName: 'prfx-conn-ae-network-rg'
   environmentPath: 'root/prfx-connectivity-ae-01 (<<subscriptionid>>)'
   location: 'Australia East'
   vmImage: 'ubuntu-latest'
