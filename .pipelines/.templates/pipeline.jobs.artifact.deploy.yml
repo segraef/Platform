@@ -66,7 +66,7 @@ jobs:
                 failOnStandardError: true
                 pwsh: true
                 inline: |
-                  $templateFilePath = Join-Path "$(downloadDirectory)/${{ parameters.moduleName }}" 'deploy.json'
+                  $templateFilePath = Join-Path "$(downloadDirectory)/${{ parameters.moduleName }}" 'deploy.bicep'
                   Write-Verbose "Got path: $templateFilePath" -Verbose
                   Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
                   Get-ChildItem $(downloadDirectory) -recurse
