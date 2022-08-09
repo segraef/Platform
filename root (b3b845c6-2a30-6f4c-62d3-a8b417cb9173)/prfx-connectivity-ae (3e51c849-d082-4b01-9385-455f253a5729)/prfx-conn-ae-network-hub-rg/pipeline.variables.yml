@@ -4,4 +4,4 @@ variables:
   location: 'Australia East'
   vmImage: 'ubuntu-latest'
   poolName: ''
-  serviceConnection: 'CARML-CSU-Tenant-Connection'
+  serviceConnection: 'graef.io'
