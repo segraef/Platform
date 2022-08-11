@@ -107,7 +107,7 @@ jobs:
                 Write-Verbose "Multi-Repo Checkout" -Verbose
                 $sourceDirectory = '$(Build.Repository.Name)'
                 $sourceDirectory = $sourceDirectory.Split('/')[-1]
-                $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '$(modulesRepository)' '${{ parameters.modulePath }}'
+                $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '${{ parameters.modulePath }}'
                 Write-Verbose "modulePath: $modulePath" -Verbose
                 Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
               } else {
@@ -141,10 +141,10 @@ jobs:
             # Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
 
-            Write-Output '$sourceDirectory'
+            Write-Output '$(sourceDirectory)'
 
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$sourceDirectory' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
             # Define PS modules to install on the runner
             $Modules = @(
@@ -179,7 +179,7 @@ jobs:
           pwsh: true
           inline: |
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
 
             # Prepare general parameters
             # --------------------------
@@ -191,8 +191,8 @@ jobs:
             $subscriptionId = '${{ parameters.subscriptionId }}'
             $managementGroupId = '${{ parameters.managementGroupId }}'
 
-            $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.templateFilePath }}'
-            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulePath)' '$(moduleTestFilePath)'
+            $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulePath)' '${{ parameters.templateFilePath }}'
+            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(moduleTestFilePath)'
 
             if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                 $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
@@ -242,7 +242,7 @@ jobs:
           ScriptType: InlineScript
           inline: |
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
 
             # Prepare general parameters
             # --------------------------
@@ -253,9 +253,9 @@ jobs:
             $subscriptionId = '${{ parameters.subscriptionId }}'
             $managementGroupId = '${{ parameters.managementGroupId }}'
 
-            $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.templateFilePath }}'
+            $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulePath)' '${{ parameters.templateFilePath }}'
 
-            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulePath)' '$(moduleTestFilePath)'
+            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(moduleTestFilePath)'
 
             if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                 $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable

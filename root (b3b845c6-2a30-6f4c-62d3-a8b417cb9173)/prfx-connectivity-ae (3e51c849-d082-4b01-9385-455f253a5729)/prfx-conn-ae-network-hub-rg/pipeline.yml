@@ -30,6 +30,7 @@ stages:
     jobs:
       - template: /.azuredevops/pipelineTemplates/jobs.deploy.yml
         parameters:
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           templateFilePath: '/modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           resourceGroupName: '$(resourceGroupName)'
