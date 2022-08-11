@@ -16,8 +16,6 @@ variables:
   vstsProject: '$(System.TeamProject)'
   modulesRepository: Azure/ResourceModules # The repository hosting the deployment code.
   # parametersRepository: self # The repository hosting the parameters.
-  ref: 'refs/heads/main'
-  repositoryType: github
   pipelineFunctionsPath: 'utilities/pipelines'
 
   ######################################

@@ -21,9 +21,9 @@ variables:
 
 resources:
   repositories:
-  - repository: '$(modulesRepository)'
+  - repository: Azure/ResourceModules
     type: github
-    ref: '$(ref)'
+    ref: 'refs/heads/main'
     name: 'modules'
   # - repository: '$(parametersRepository)'
   #   type: github
