@@ -91,6 +91,7 @@ jobs:
                 path: 's/${{ checkoutRepository }}'
       # [Agent] Prepare environment
       #----------------------------
+      - pwsh: Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse
       - task: PowerShell@2
         displayName: 'Setup agent for deployment'
         inputs:
@@ -99,8 +100,9 @@ jobs:
           script: |
             Write-Output '#########'
             Write-Output '$(Pipeline.Workspace)'
+            Write-Output '$(Build.SourcesDirectory)'
             Write-Output '$(System.DefaultWorkingDirectory)'
-            Get-ChildItem '$(System.DefaultWorkingDirectory)'
+            Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse
             Write-Output '#########'
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
