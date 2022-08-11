@@ -30,7 +30,8 @@ stages:
     jobs:
       - job:
         uses:
-          repositories: modules
+          repositories:
+            - modules
         steps:
           - pwsh: dir $(Build.SourcesDirectory)
 #   - stage: deployment
