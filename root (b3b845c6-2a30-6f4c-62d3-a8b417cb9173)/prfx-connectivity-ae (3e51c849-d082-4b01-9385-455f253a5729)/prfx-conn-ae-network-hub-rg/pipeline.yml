@@ -37,6 +37,8 @@ stages:
           resourceGroupName: '$(resourceGroupName)'
           subscriptionId: '$(subscriptionId)'
           managementGroupId: '$(managementGroupId)'
+          checkoutRepositories:
+            - modules
       # - job:
       #   steps:
       #     - checkout: self

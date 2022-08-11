@@ -45,6 +45,7 @@
 
 parameters:
   # Pipeline-related parameters
+  checkoutRepositories: ''
   serviceConnection: '$(serviceConnection)'
   poolName: '$(poolName)'
   vmImage: '$(vmImage)'
@@ -78,6 +79,14 @@ jobs:
     ## TEMPLATE LOGIC                              ##
     ##---------------------------------------------##
     steps:
+      # [Checkout Repositories] task(s)
+      #--------------------------------
+      - checkout: self
+      - ${{ if ne(parameters.checkoutRepositories, '') }}:
+          - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
+              - checkout: ${{ checkoutRepository }}
+                fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
+                # path: 's/${{ checkoutRepository }}'
       # [Agent] Prepare environment
       #----------------------------
       - task: PowerShell@2
