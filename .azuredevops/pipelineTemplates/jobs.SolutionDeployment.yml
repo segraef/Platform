@@ -53,6 +53,7 @@ parameters:
   # Logic-related parameters
   removeDeployment: false
   templateFilePath: ''
+  moduleTestFilePath: ''
   customParameterFileTokens: ''
   modulePath: '$(modulePath)'
   location: '$(location)'
@@ -67,7 +68,6 @@ parameters:
 ## TEMPLATE LOGIC                              ##
 ##---------------------------------------------##
 jobs:
-  - template: /.azuredevops/pipelineTemplates/jobs.getModuleTestFiles.yml
   - job: deploy
     displayName: 'Deploying ' # Auto-populated
     timeoutInMinutes: ${{ parameters.defaultJobTimeoutInMinutes }}
@@ -76,10 +76,6 @@ jobs:
         vmImage: ${{ parameters.vmImage }}
       ${{ if ne(parameters.poolName, '') }}:
         name: ${{ parameters.poolName }}
-    dependsOn:
-      - getModuleTestFiles
-    strategy:
-      matrix: $[ dependencies.getModuleTestFiles.outputs['getModuleTestFilesTask.moduleTests'] ]
     ##---------------------------------------------##
     ## TEMPLATE LOGIC                              ##
     ##---------------------------------------------##
@@ -87,12 +83,12 @@ jobs:
       # [Checkout Repositories] task(s)
       #--------------------------------
       - checkout: self
+        # path: 's/'
       - ${{ if ne(parameters.checkoutRepositories, '') }}:
           - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
               - checkout: ${{ checkoutRepository }}
                 fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
                 path: 's/${{ checkoutRepository }}'
-
       # [Agent] Prepare environment
       #----------------------------
       - task: PowerShell@2
@@ -101,6 +97,12 @@ jobs:
           targetType: inline
           pwsh: true
           script: |
+            Write-Output '#########'
+            Write-Output '$(Pipeline.Workspace)'
+            Write-Output '$(Build.SourcesDirectory)'
+            Write-Output '$(System.DefaultWorkingDirectory)'
+            Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
+            Write-Output '#########'
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
@@ -295,3 +297,33 @@ jobs:
               # Happens only if there is an exception
               throw $res.exception
             }
+
+      # [Removal] task(s)
+      #------------------
+      - task: AzurePowerShell@5
+        displayName: 'Remove deployed resources via [${{ parameters.serviceConnection }}]'
+        condition: and(succeededOrFailed(), eq('${{ parameters.removeDeployment }}', 'True'), not(eq(variables['deploymentName'],'')), not(startsWith(variables['deploymentName'], 'variables[' )))
+        inputs:
+          azureSubscription: ${{ parameters.serviceConnection }}
+          azurePowerShellVersion: ${{ parameters.azurePowerShellVersion }}
+          preferredAzurePowerShellVersion: ${{ parameters.preferredAzurePowerShellVersion }}
+          ScriptType: InlineScript
+          failOnStandardError: false
+          pwsh: true
+          inline: |
+            # Load used function
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
+
+            $functionInput = @{
+              TemplateFilePath  = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.templateFilePath }}'
+              ResourceGroupName = '${{ parameters.resourceGroupName }}'
+              subscriptionId    = '${{ parameters.subscriptionId }}'
+              ManagementGroupId = '${{ parameters.managementGroupId }}'
+              deploymentName    = '$(deploymentName)'
+              Verbose           = $true
+            }
+
+            Write-Verbose 'Invoke task with' -Verbose
+            Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
+
+            Initialize-DeploymentRemoval @functionInput

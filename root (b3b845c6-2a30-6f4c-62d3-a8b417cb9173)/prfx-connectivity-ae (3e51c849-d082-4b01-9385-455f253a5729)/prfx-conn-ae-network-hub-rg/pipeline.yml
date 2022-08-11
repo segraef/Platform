@@ -14,7 +14,6 @@ trigger:
 variables:
   - template: pipeline.variables.yml
   - template: '/global.variables.yml'
-  # - template: /.pipelines/.templates/pipeline.artifacts.yml
   - group: 'PLATFORM_VARIABLES'
 
 resources:
@@ -29,21 +28,10 @@ stages:
   - stage: deployment
     displayName: Deployment
     jobs:
-      - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
           templateFilePath: '/modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
-          location: '$(location)'
           resourceGroupName: '$(resourceGroupName)'
-          subscriptionId: '$(subscriptionId)'
-          managementGroupId: '$(managementGroupId)'
           checkoutRepositories:
             - modules
-      # - job:
-      #   steps:
-      #     - checkout: self
-      #     - checkout: modules
-      #     - pwsh: dir
-      #     - pwsh: dir $(Build.SourcesDirectory)
-      #     - pwsh: dir $(Agent.BuildDirectory)
-      #     - pwsh: dir $(System.DefaultWorkingDirectory)

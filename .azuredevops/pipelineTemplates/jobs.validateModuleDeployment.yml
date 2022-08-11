@@ -91,7 +91,6 @@ jobs:
                 path: 's/${{ checkoutRepository }}'
       # [Agent] Prepare environment
       #----------------------------
-      - pwsh: Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse
       - task: PowerShell@2
         displayName: 'Setup agent for deployment'
         inputs:
