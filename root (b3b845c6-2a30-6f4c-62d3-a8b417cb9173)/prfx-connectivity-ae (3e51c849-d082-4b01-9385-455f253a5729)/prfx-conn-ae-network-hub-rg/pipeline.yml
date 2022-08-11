@@ -27,7 +27,7 @@ stages:
   - stage: deployment
     displayName: Deployment
     jobs:
-      - template: /.azuredevops/pipelineTemplates/jobs.deploy.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
