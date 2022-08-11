@@ -1,6 +1,9 @@
 name: $(resourceGroupName)
 
+pr: none
+
 trigger:
+  batch: true
   branches:
     include:
       - notrigger
@@ -10,28 +13,37 @@ trigger:
 
 variables:
   - template: pipeline.variables.yml
-  - template: /.pipelines/.templates/pipeline.artifacts.yml
+  - template: '../../global.variables.yml'
+  # - template: /.pipelines/.templates/pipeline.artifacts.yml
+  - group: 'PLATFORM_VARIABLES'
+  - name: modulePath
+    value: '/modules/Microsoft.DesktopVirtualization/hostpools'
 
-stages:
-  - stage: Plan
-    jobs:
-      - template: ./pipeline.jobs.yml
-        parameters:
-          vmImage: '$(vmImage)'
-          poolName: '$(poolName)'
-          serviceConnection: '$(serviceConnection)'
-          resourceGroupName: '$(resourceGroupName)'
-          parameterFilePath: ''
-          environment: DEV
-          whatif: true
-  - stage: Deployment
-    jobs:
-      - template: ./pipeline.jobs.yml
-        parameters:
-          vmImage: '$(vmImage)'
-          poolName: '$(poolName)'
-          serviceConnection: '$(serviceConnection)'
-          resourceGroupName: '$(resourceGroupName)'
-          parameterFilePath: ''
-          environment: DEV
-          whatif: false
+resources:
+  repositories:
+  - repository: '$(modulesRepository)'
+    type: $(repositoryType)
+    ref: '$(ref)'
+    name: 'modules'
+  # - repository: '$(parametersRepository)'
+  #   type: github
+  #   ref: '$(ref)'
+  #   name: 'self'
+
+steps:
+- script: dir $(Build.SourcesDirectory)
+
+
+# stages:
+#   - stage: deployment
+#     displayName: Deployment
+#     jobs:
+#       - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
+#         parameters:
+#           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
+#           parameterFilePath: '$(resourceGroupName)/parameters.json'
+#           location: '$(location)'
+#           resourceGroupName: '$(resourceGroupName)'
+#           subscriptionId: '$(subscriptionId)'
+#           managementGroupId: '$(managementGroupId)'
+#           removeDeployment: $(removeDeployment)
