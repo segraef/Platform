@@ -32,6 +32,7 @@ stages:
         steps:
           - checkout: self
           - checkout: modules
+          - pwsh: dir
           - pwsh: dir $(Build.SourcesDirectory)
           - pwsh: dir $(Agent.BuildDirectory)
           - pwsh: dir $(System.DefaultWorkingDirectory)
