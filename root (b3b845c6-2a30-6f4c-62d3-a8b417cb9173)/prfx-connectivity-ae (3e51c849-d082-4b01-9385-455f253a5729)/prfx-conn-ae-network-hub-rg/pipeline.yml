@@ -33,16 +33,15 @@ stages:
         parameters:
           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           parameterFilePath: '$(resourceGroupName)/parameters.json'
-          checkoutRepositories: 'modules'
           location: '$(location)'
           resourceGroupName: '$(resourceGroupName)'
           subscriptionId: '$(subscriptionId)'
           managementGroupId: '$(managementGroupId)'
-      - job:
-        steps:
-          - checkout: self
-          - checkout: modules
-          - pwsh: dir
-          - pwsh: dir $(Build.SourcesDirectory)
-          - pwsh: dir $(Agent.BuildDirectory)
-          - pwsh: dir $(System.DefaultWorkingDirectory)
+      # - job:
+      #   steps:
+      #     - checkout: self
+      #     - checkout: modules
+      #     - pwsh: dir
+      #     - pwsh: dir $(Build.SourcesDirectory)
+      #     - pwsh: dir $(Agent.BuildDirectory)
+      #     - pwsh: dir $(System.DefaultWorkingDirectory)
