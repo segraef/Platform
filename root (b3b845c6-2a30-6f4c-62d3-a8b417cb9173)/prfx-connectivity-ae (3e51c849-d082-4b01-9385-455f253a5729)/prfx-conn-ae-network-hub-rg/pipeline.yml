@@ -29,10 +29,8 @@ stages:
   - stage: test
     jobs:
       - job:
-        uses:
-          repositories:
-            - modules
         steps:
+          - checkout: modules
           - pwsh: dir $(Build.SourcesDirectory)
           - pwsh: dir $(Agent.BuildDirectory)
           - pwsh: dir $(System.DefaultWorkingDirectory)
