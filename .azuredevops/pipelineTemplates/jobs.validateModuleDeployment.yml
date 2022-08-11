@@ -98,6 +98,7 @@ jobs:
           pwsh: true
           script: |
             Write-Output '#########'
+            $(Pipeline.Workspace)
             dir
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
