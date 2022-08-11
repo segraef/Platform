@@ -53,6 +53,7 @@ parameters:
   # Logic-related parameters
   removeDeployment: false
   templateFilePath: ''
+  moduleTestFilePath: ''
   customParameterFileTokens: ''
   modulePath: '$(modulePath)'
   location: '$(location)'
@@ -86,7 +87,7 @@ jobs:
           - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
               - checkout: ${{ checkoutRepository }}
                 fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
-                # path: 's/${{ checkoutRepository }}'
+                path: 's/${{ checkoutRepository }}'
       # [Agent] Prepare environment
       #----------------------------
       - task: PowerShell@2

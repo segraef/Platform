@@ -32,7 +32,7 @@ stages:
       - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
         parameters:
           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
-          parameterFilePath: '$(resourceGroupName)/parameters.json'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           location: '$(location)'
           resourceGroupName: '$(resourceGroupName)'
           subscriptionId: '$(subscriptionId)'
