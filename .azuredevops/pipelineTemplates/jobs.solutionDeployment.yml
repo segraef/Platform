@@ -341,7 +341,7 @@ jobs:
           pwsh: true
           inline: |
             # Load used function
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
 
             $functionInput = @{
               TemplateFilePath  = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.templateFilePath }}'
