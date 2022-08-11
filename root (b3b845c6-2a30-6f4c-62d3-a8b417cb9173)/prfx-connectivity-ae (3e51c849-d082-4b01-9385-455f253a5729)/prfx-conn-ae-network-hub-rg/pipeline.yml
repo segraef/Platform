@@ -40,6 +40,9 @@ stages:
     displayName: Deployment
     jobs:
       - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
+        uses:
+          repositories:
+            - modules
         parameters:
           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           parameterFilePath: '$(resourceGroupName)/parameters.json'
