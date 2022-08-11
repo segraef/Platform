@@ -36,16 +36,18 @@ stages:
           - pwsh: dir $(Build.SourcesDirectory)
           - pwsh: dir $(Agent.BuildDirectory)
           - pwsh: dir $(System.DefaultWorkingDirectory)
-#   - stage: deployment
-#     displayName: Deployment
-#     jobs:
-#       - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
-#         uses:
-#         parameters:
-#           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
-#           parameterFilePath: '$(resourceGroupName)/parameters.json'
-#           location: '$(location)'
-#           resourceGroupName: '$(resourceGroupName)'
-#           subscriptionId: '$(subscriptionId)'
-#           managementGroupId: '$(managementGroupId)'
-#           removeDeployment: $(removeDeployment)
+  - stage: deployment
+    displayName: Deployment
+    jobs:
+      - checkout: self
+      - checkout: modules
+      - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
+        uses:
+        parameters:
+          templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
+          parameterFilePath: '$(resourceGroupName)/parameters.json'
+          location: '$(location)'
+          resourceGroupName: '$(resourceGroupName)'
+          subscriptionId: '$(subscriptionId)'
+          managementGroupId: '$(managementGroupId)'
+          removeDeployment: $(removeDeployment)
