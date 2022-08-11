@@ -104,8 +104,8 @@ jobs:
             # Handle multiple-repositories
             if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
               Write-Verbose "Multi-Repo Checkout" -Verbose
-              $sourceDirectory = $($(Build.Repository.Name)).Split('/')[-1]
-              $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulesRepository)' '${{ parameters.modulePath }}'
+              $sourceDirectory = $('$(Build.Repository.Name)').Split('/')[-1]
+              $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' {{ parameters.checkoutRepositories }} '$(modulesRepository)' '${{ parameters.modulePath }}'
             } else {
               Write-Verbose "No Multi-Repo Checkout" -Verbose
               $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
@@ -134,10 +134,10 @@ jobs:
             Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
 
-            $sourceDirectory = $(Build.Repository.Name).Split('/')[-1]
+            # $sourceDirectory = $(Build.Repository.Name).Split('/')[-1]
 
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' $sourceDirectory 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
             # Define PS modules to install on the runner
             $Modules = @(
