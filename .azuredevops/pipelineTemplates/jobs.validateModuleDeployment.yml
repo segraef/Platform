@@ -82,6 +82,7 @@ jobs:
     steps:
       # [Agent] Prepare environment
       #----------------------------
+      - checkout: self
       - task: PowerShell@2
         displayName: 'Setup agent for deployment'
         inputs:
