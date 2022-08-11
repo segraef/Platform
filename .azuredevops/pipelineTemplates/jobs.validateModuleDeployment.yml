@@ -88,8 +88,8 @@ jobs:
           targetType: inline
           pwsh: true
           script: |
-            Write-Verbose $(System.DefaultWorkingDirectory)
-            Get-ChildItem $(System.DefaultWorkingDirectory)
+          Write-Output #########
+            dir
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
@@ -116,12 +116,12 @@ jobs:
 
       # [Checkout Repositories] task(s)
       #--------------------------------
-      - checkout: self
-      - ${{ if ne(parameters.checkoutRepositories, '') }}:
-          - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
-              - checkout: ${{ checkoutRepository }}
-                fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
-                path: 's/${{ checkoutRepository }}'
+      # - checkout: self
+      # - ${{ if ne(parameters.checkoutRepositories, '') }}:
+      #     - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
+      #         - checkout: ${{ checkoutRepository }}
+      #           fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
+      #           path: 's/${{ checkoutRepository }}'
       # [Validation] task(s)
       #---------------------
       - task: AzurePowerShell@5
