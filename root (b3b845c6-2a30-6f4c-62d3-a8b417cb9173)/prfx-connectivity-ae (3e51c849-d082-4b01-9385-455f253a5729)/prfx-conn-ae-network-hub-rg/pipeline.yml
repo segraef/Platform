@@ -22,7 +22,7 @@ variables:
 resources:
   repositories:
   - repository: '$(modulesRepository)'
-    type: $(repositoryType)
+    type: '$(repositoryType)'
     ref: '$(ref)'
     name: 'modules'
   # - repository: '$(parametersRepository)'
