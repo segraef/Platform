@@ -16,8 +16,6 @@ variables:
   - template: '/global.variables.yml'
   # - template: /.pipelines/.templates/pipeline.artifacts.yml
   - group: 'PLATFORM_VARIABLES'
-  - name: modulePath
-    value: '/modules/Microsoft.DesktopVirtualization/hostpools'
 
 resources:
   repositories:
@@ -26,20 +24,19 @@ resources:
     endpoint: segraef
     type: github
     ref: 'refs/heads/main'
-  # - repository: '$(parametersRepository)'
-  #   type: github
-  #   ref: '$(ref)'
-  #   name: 'self'
 
-steps:
-- script: dir $(Build.SourcesDirectory)
-
-
-# stages:
+stages:
+  - stage: test
+    jobs:
+    uses:
+      repositories: modules
+    steps:
+      - pwsh: dir $(Build.SourcesDirectory)
 #   - stage: deployment
 #     displayName: Deployment
 #     jobs:
 #       - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
+#         uses:
 #         parameters:
 #           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
 #           parameterFilePath: '$(resourceGroupName)/parameters.json'
