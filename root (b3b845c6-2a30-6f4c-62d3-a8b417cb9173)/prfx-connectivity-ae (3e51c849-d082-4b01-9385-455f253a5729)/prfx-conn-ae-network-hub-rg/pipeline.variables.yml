@@ -5,5 +5,5 @@ variables:
   vmImage: 'ubuntu-latest'
   poolName: ''
   serviceConnection: 'graef.io'
-  subscriptionId: ''
+  subscriptionId: '47041275-ef6a-42af-a770-ee0fb2227eec'
   managementGroupId: ''
