@@ -91,6 +91,7 @@ jobs:
 
       # [Multi Repo] Support task
       #--------------------------
+      - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
       - task: PowerShell@2
         displayName: Handle Multi-Repo Invocation
         inputs:
@@ -105,7 +106,7 @@ jobs:
             if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
               Write-Verbose "Multi-Repo Checkout" -Verbose
               $sourceDirectory = $('$(Build.Repository.Name)').Split('/')[-1]
-              $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' {{ parameters.checkoutRepositories }} '$(modulesRepository)' '${{ parameters.modulePath }}'
+              $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '$(modulesRepository)' '${{ parameters.modulePath }}'
             } else {
               Write-Verbose "No Multi-Repo Checkout" -Verbose
               $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
