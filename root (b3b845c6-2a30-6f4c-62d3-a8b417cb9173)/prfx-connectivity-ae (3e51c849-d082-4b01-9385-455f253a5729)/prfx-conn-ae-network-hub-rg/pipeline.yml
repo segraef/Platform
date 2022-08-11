@@ -31,5 +31,6 @@ stages:
         parameters:
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          removeDeployment: true
           checkoutRepositories:
             - modules
