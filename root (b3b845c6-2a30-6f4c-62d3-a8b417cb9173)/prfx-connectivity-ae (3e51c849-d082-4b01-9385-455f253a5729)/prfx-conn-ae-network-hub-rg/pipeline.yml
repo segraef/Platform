@@ -13,7 +13,7 @@ trigger:
 
 variables:
   - template: pipeline.variables.yml
-  - template: './global.variables.yml'
+  - template: '/global.variables.yml'
   # - template: /.pipelines/.templates/pipeline.artifacts.yml
   - group: 'PLATFORM_VARIABLES'
   - name: modulePath
