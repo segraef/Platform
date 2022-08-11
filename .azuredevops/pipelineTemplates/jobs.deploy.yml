@@ -83,7 +83,6 @@ jobs:
       # [Checkout Repositories] task(s)
       #--------------------------------
       - checkout: self
-        # path: 's/'
       - ${{ if ne(parameters.checkoutRepositories, '') }}:
           - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
               - checkout: ${{ checkoutRepository }}
@@ -93,6 +92,7 @@ jobs:
       #----------------------------
       - task: PowerShell@2
         displayName: 'Setup agent for deployment'
+        enabled: false
         inputs:
           targetType: inline
           pwsh: true
