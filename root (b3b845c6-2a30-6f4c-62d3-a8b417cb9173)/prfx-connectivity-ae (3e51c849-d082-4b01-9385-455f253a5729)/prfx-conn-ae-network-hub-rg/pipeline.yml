@@ -23,7 +23,7 @@ resources:
     name: Azure/ResourceModules
     endpoint: segraef
     type: github
-    ref: 'refs/heads/main'
+    ref: 'refs/heads/users/segraef/po'
 
 stages:
   - stage: test
@@ -39,15 +39,12 @@ stages:
   - stage: deployment
     displayName: Deployment
     jobs:
-      - checkout: self
-      - checkout: modules
       - template: /.azuredevops/pipelineTemplates/jobs.validateModuleDeployment.yml
-        uses:
         parameters:
           templateFilePath: './modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           parameterFilePath: '$(resourceGroupName)/parameters.json'
+          checkoutRepositories: 'modules'
           location: '$(location)'
           resourceGroupName: '$(resourceGroupName)'
           subscriptionId: '$(subscriptionId)'
           managementGroupId: '$(managementGroupId)'
-          removeDeployment: $(removeDeployment)
