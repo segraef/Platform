@@ -179,7 +179,7 @@ jobs:
           pwsh: true
           inline: |
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
 
             # Prepare general parameters
             # --------------------------
@@ -191,8 +191,14 @@ jobs:
             $subscriptionId = '${{ parameters.subscriptionId }}'
             $managementGroupId = '${{ parameters.managementGroupId }}'
 
-            $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulePath)' '${{ parameters.templateFilePath }}'
-            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(moduleTestFilePath)'
+            #Prioritizing the bicep file
+            $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+            if (-not (Test-Path $moduleTemplateFilePath)) {
+              $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+            }
+
+            # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
+            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(moduleTestFilePath)'
 
             if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                 $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
@@ -242,7 +248,7 @@ jobs:
           ScriptType: InlineScript
           inline: |
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
 
             # Prepare general parameters
             # --------------------------
@@ -253,9 +259,14 @@ jobs:
             $subscriptionId = '${{ parameters.subscriptionId }}'
             $managementGroupId = '${{ parameters.managementGroupId }}'
 
-            $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulePath)' '${{ parameters.templateFilePath }}'
+            #Prioritizing the bicep file
+            $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+            if (-not (Test-Path $moduleTemplateFilePath)) {
+              $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+            }
 
-            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' '$(moduleTestFilePath)'
+            # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
+            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(moduleTestFilePath)'
 
             if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                 $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
