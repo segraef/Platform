@@ -30,6 +30,7 @@ stages:
     jobs:
       - job:
         steps:
+          - checkout: self
           - checkout: modules
           - pwsh: dir $(Build.SourcesDirectory)
           - pwsh: dir $(Agent.BuildDirectory)
