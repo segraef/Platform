@@ -124,7 +124,7 @@ jobs:
       #----------------------------
       - task: PowerShell@2
         displayName: 'Setup agent for deployment'
-        enabled: true
+        enabled: false
         inputs:
           targetType: inline
           pwsh: true
@@ -198,7 +198,7 @@ jobs:
             }
 
             # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
-            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '${{ parameters.moduleTestFilePath }}'
+            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
             if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                 $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
@@ -266,7 +266,7 @@ jobs:
             }
 
             # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
-            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '${{ parameters.moduleTestFilePath }}'
+            $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
             if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                 $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
