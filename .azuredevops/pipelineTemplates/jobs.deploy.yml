@@ -103,8 +103,14 @@ jobs:
             Write-Output '$(System.DefaultWorkingDirectory)'
             Write-Output '$(Build.Repository.LocalPath)'
             Write-Output '$(Build.Repository.Name)'
+            Write-Output '$(Build.Repository.ID)'
+            Write-Output '$(Build.Repository.Name)'
+            Write-Output '$(Build.SourceBranch)'
             Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
+
+            $sourceDirectory = $(Build.Repository.Name).Split('/')[-1]
+
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
@@ -144,12 +150,14 @@ jobs:
             # Handle multiple-repositories
             if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
               Write-Verbose "Multi-Repo Checkout" -Verbose
+              $sourceDirectory = $(Build.Repository.Name).Split('/')[-1]
               $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(modulesRepository)' '${{ parameters.modulePath }}'
             } else {
               Write-Verbose "No Multi-Repo Checkout" -Verbose
               $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
             }
             Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
+            Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
 
       # [Validation] task(s)
       #---------------------
