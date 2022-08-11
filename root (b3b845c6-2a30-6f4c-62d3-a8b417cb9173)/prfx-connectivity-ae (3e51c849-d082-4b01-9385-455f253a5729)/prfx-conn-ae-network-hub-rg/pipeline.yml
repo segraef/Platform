@@ -13,8 +13,7 @@ trigger:
 
 variables:
   - template: pipeline.variables.yml
-  - template: '/global.variables.yml'
-  - group: 'PLATFORM_VARIABLES'
+  - template: /global.variables.yml
 
 resources:
   repositories:
