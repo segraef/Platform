@@ -141,10 +141,10 @@ jobs:
             # Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
 
-            Write-Output '$(sourceDirectory)'
+            Write-Output '$(ENVSOURCEDIRECTORY)'
 
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(sourceDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
             # Define PS modules to install on the runner
             $Modules = @(
