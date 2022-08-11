@@ -133,7 +133,7 @@ jobs:
             Write-Output '$(Build.Repository.ID)'
             Write-Output '$(Build.Repository.Name)'
             Write-Output '$(Build.SourceBranch)'
-            Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
+            # Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
 
             Write-Output '$sourceDirectory'
