@@ -135,7 +135,7 @@ jobs:
             Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
 
-            # $sourceDirectory = $(Build.Repository.Name).Split('/')[-1]
+            Write-Output '$sourceDirectory'
 
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' $sourceDirectory 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
