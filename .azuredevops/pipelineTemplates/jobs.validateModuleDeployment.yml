@@ -96,7 +96,7 @@ jobs:
           targetType: inline
           pwsh: true
           script: |
-            Write-Verbose: $(System.DefaultWorkingDirectory)
+            Write-Verbose $(System.DefaultWorkingDirectory)
             Get-ChildItem $(System.DefaultWorkingDirectory)
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
