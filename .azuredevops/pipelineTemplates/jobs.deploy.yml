@@ -106,13 +106,19 @@ jobs:
               if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
                 Write-Verbose "Multi-Repo Checkout" -Verbose
                 $sourceDirectory = '$(Build.Repository.Name)'
+                $sourceDirectory = $sourceDirectory.Split('/')[-1]
                 $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '$(modulesRepository)' '${{ parameters.modulePath }}'
+                Write-Verbose "modulePath: $modulePath" -Verbose
+                Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
               } else {
                 Write-Verbose "No Multi-Repo Checkout" -Verbose
                 $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
+                $sourceDirectory = ''
+                Write-Verbose "modulePath: $modulePath" -Verbose
+                Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
               }
               Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
-              Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory.Split('/')[-1]"
+              Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
 
       # [Agent] Prepare environment
       #----------------------------
