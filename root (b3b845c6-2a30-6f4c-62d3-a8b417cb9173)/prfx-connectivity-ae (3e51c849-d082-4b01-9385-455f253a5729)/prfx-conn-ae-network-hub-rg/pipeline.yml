@@ -29,11 +29,14 @@ stages:
   - stage: test
     jobs:
       - job:
-        uses:
-          repositories:
-            - modules
+        # uses:
+        #   repositories:
+        #     - modules
         steps:
+          - checkout: github://Azure/ResourceModules
           - pwsh: dir $(Build.SourcesDirectory)
+          - pwsh: dir $(Agent.BuildDirectory)
+          - pwsh: dir $(System.DefaultWorkingDirectory)
 #   - stage: deployment
 #     displayName: Deployment
 #     jobs:
