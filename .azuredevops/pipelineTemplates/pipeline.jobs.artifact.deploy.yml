@@ -1,0 +1,104 @@
+name: 'PO Solution Deployment (Artifacts)'
+
+parameters:
+  - name: removeDeployment
+    displayName: Remove deployed module
+    type: boolean
+    default: true
+  - name: prerelease
+    displayName: Publish prerelease module
+    type: boolean
+    default: false
+
+pr: none
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - work
+  paths:
+    include:
+      - '/.azuredevops/modulePipelines/ms.aad.domainservices.yml'
+      - '/.azuredevops/pipelineTemplates/*.yml'
+      - '/modules/Microsoft.AAD/DomainServices/*'
+      - '/utilities/pipelines/*'
+    exclude:
+      - '/utilities/pipelines/dependencies/*'
+      - '/**/*.md'
+
+variables:
+  - template: '../../global.variables.yml'
+  - group: 'PLATFORM_VARIABLES'
+  - name: modulePath
+    value: '/modules/Microsoft.AAD/DomainServices'
+
+stages:
+  - template: /.azuredevops/pipelineTemplates/stages.module.yml
+    parameters:
+      removeDeployment: '${{ parameters.removeDeployment }}'
+      prerelease: '${{ parameters.prerelease }}'
+
+resources:
+  repositories:
+  - repository: '$(modulesRepository)'
+    type: github
+    ref: '$(ref)'
+    name: 'other'
+
+jobs:
+  - deployment: ${{ parameters.jobName }}${{ parameters.whatif }}
+    ${{ if eq( parameters.whatif, true) }}:
+      displayName: ${{ parameters.displayName }} WhatIf
+    ${{ if ne( parameters.whatif, true) }}:
+      displayName: ${{ parameters.displayName }}
+    ${{ if ne( parameters.dependsOn, '') }}:
+      dependsOn:
+        - ${{ each dependency in parameters.dependsOn }}:
+            - ${{ dependency }}${{ parameters.whatif }}
+    environment: ${{ parameters.environment }}
+    timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
+    pool:
+      ${{ if ne(parameters.vmImage, '') }}:
+        vmImage: ${{ parameters.vmImage }}
+      ${{ if ne(parameters.poolName, '') }}:
+        name: ${{ parameters.poolName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - checkout: other
+            - powershell: |
+                $lowerModuleName = "${{ parameters.moduleName }}".ToLower()
+                Write-Host "##vso[task.setVariable variable=lowerModuleName]$lowerModuleName"
+              displayName: 'Prepare download from artifacts feed'
+              enabled: ${{ parameters.enabled }}
+
+            - task: UniversalPackages@0
+              displayName: 'Download module [${{ parameters.moduleName }}] version [${{ parameters.moduleVersion }}] from feed [${{ parameters.artifactFeedPath }}]'
+              inputs:
+                command: download
+                vstsFeed: '${{ parameters.artifactFeedPath }}'
+                vstsFeedPackage: '$(lowerModuleName)'
+                vstsPackageVersion: '${{ parameters.moduleVersion }}'
+                downloadDirectory: '$(downloadDirectory)/$(lowerModuleName)'
+              enabled: ${{ parameters.enabled }}
+
+            - task: AzurePowerShell@5
+              displayName: 'Deploy module [${{ parameters.moduleName }}] version [${{ parameters.moduleVersion }}] in [${{ parameters.resourcegroupname }}] via [${{ parameters.serviceConnection }}]'
+              name: DeployResource
+              inputs:
+                azureSubscription: ${{ parameters.serviceConnection }}
+                errorActionPreference: stop
+                enabled: ${{ parameters.enabled }}
+                azurePowerShellVersion: LatestVersion
+                ScriptType: InlineScript
+                failOnStandardError: true
+                pwsh: true
+                inline: |
+                  $templateFilePath = Join-Path "$(downloadDirectory)/${{ parameters.moduleName }}" 'deploy.json'
+                  Write-Verbose "Got path: $templateFilePath" -Verbose
+                  Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
+                  Get-ChildItem $(downloadDirectory) -recurse | select *
+
