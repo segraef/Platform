@@ -105,6 +105,7 @@ jobs:
               # Handle multiple-repositories
               if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
                 Write-Verbose "Multi-Repo Checkout" -Verbose
+                Write-Verbose "$('$(Build.Repository.Name)').Split('/')[-1]" -Verbose
                 $sourceDirectory = $('$(Build.Repository.Name)').Split('/')[-1]
                 $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '$(modulesRepository)' '${{ parameters.modulePath }}'
               } else {
@@ -138,7 +139,7 @@ jobs:
             Write-Output '$sourceDirectory'
 
             # Load used functions
-            . (Join-Path '$(System.DefaultWorkingDirectory)' $sourceDirectory 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
+            . (Join-Path '$(System.DefaultWorkingDirectory)' '$sourceDirectory' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
             # Define PS modules to install on the runner
             $Modules = @(
