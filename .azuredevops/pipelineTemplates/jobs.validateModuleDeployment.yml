@@ -102,7 +102,7 @@ jobs:
             Write-Output '$(Pipeline.Workspace)'
             Write-Output '$(Build.SourcesDirectory)'
             Write-Output '$(System.DefaultWorkingDirectory)'
-            Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse
+            Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
