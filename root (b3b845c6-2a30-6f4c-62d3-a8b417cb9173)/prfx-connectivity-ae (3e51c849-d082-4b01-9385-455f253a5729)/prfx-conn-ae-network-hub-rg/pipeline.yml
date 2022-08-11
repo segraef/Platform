@@ -21,11 +21,11 @@ variables:
 
 resources:
   repositories:
-  - repository: Azure/ResourceModules
+  - repository: modules
+    name: Azure/ResourceModules
     endpoint: segraef
     type: github
     ref: 'refs/heads/main'
-    name: 'modules'
   # - repository: '$(parametersRepository)'
   #   type: github
   #   ref: '$(ref)'
