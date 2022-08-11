@@ -28,10 +28,11 @@ resources:
 stages:
   - stage: test
     jobs:
-    uses:
-      repositories: modules
-    steps:
-      - pwsh: dir $(Build.SourcesDirectory)
+      - job:
+        uses:
+          repositories: modules
+        steps:
+          - pwsh: dir $(Build.SourcesDirectory)
 #   - stage: deployment
 #     displayName: Deployment
 #     jobs:
