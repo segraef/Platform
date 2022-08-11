@@ -105,7 +105,7 @@ jobs:
               # Handle multiple-repositories
               if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
                 Write-Verbose "Multi-Repo Checkout" -Verbose
-                $sourceDirectory = $(Build.Repository.Name)
+                $sourceDirectory = '$(Build.Repository.Name)'
                 $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '$(modulesRepository)' '${{ parameters.modulePath }}'
               } else {
                 Write-Verbose "No Multi-Repo Checkout" -Verbose
