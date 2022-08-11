@@ -183,7 +183,7 @@ jobs:
 
             # Prepare general parameters
             # --------------------------
-            $projectSettings = Get-Content -Path 'settings.json' | ConvertFrom-Json
+            $projectSettings = Get-Content -Path '$(ENVSOURCEDIRECTORY)\settings.json' | ConvertFrom-Json
 
             # Fetching parameters
             $location = '${{ parameters.location }}'
