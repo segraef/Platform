@@ -101,6 +101,8 @@ jobs:
             Write-Output '$(Pipeline.Workspace)'
             Write-Output '$(Build.SourcesDirectory)'
             Write-Output '$(System.DefaultWorkingDirectory)'
+            Write-Output '$(Build.Repository.LocalPath)'
+            Write-Output '$(Build.Repository.Name)'
             Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
             Write-Output '#########'
             # Load used functions
