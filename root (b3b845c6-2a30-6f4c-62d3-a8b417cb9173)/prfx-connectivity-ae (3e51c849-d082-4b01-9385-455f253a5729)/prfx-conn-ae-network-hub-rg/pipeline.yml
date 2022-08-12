@@ -36,7 +36,7 @@ resources:
   repositories:
   - repository: modules
     name: $(modulesRepository)
-    endpoint: ${{ parameters.endpoint }}
+    endpoint: $(endpoint)
     type: ${{ parameters.type }}
     ref: ${{ parameters.ref }}
 
