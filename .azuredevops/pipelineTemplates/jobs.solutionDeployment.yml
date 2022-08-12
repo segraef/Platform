@@ -45,7 +45,7 @@
 
 parameters:
   # Pipeline-related parameters
-  jobName: '1'
+  jobName: ''
   displayName: ''
   checkoutRepositories: ''
   environment: 'DEV'
@@ -72,11 +72,11 @@ parameters:
 ## TEMPLATE LOGIC                              ##
 ##---------------------------------------------##
 jobs:
-  - deployment: #${{ parameters.jobName }}${{ parameters.whatif }}
+  - deployment: ${{ parameters.jobName }}${{ parameters.whatif }}
     ${{ if eq( parameters.whatif, true) }}:
-      displayName: ${{ parameters.displayName }} WhatIf
+      displayName: ${{ parameters.jobName }} WhatIf
     ${{ if ne( parameters.whatif, true) }}:
-      displayName: ${{ parameters.displayName }}
+      displayName: ${{ parameters.jobName }}
     ${{ if ne( parameters.dependsOn, '') }}:
       dependsOn:
         - ${{ each dependency in parameters.dependsOn }}:

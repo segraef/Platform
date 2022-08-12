@@ -46,24 +46,28 @@ stages:
     jobs:
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
+          jobName: rg
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
+          jobName: rg2
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
+          jobName: rg3
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
+          jobName: rg4
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
