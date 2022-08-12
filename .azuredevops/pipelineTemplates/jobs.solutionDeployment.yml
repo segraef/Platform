@@ -47,10 +47,12 @@ parameters:
   # Pipeline-related parameters
   displayName: ''
   checkoutRepositories: ''
+  environment: ''
   serviceConnection: '$(serviceConnection)'
   poolName: '$(poolName)'
   vmImage: '$(vmImage)'
   defaultJobTimeoutInMinutes: 120
+  whatif: false
   # Logic-related parameters
   removeDeployment: false
   templateFilePath: ''
@@ -79,7 +81,7 @@ jobs:
         - ${{ each dependency in parameters.dependsOn }}:
             - ${{ dependency }}${{ parameters.whatif }}
     environment: ${{ parameters.environment }}
-    timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
+    timeoutInMinutes: ${{ parameters.defaultJobTimeoutInMinutes }}
     pool:
       ${{ if ne(parameters.vmImage, '') }}:
         vmImage: ${{ parameters.vmImage }}
