@@ -21,7 +21,7 @@ resources:
     name: Azure/ResourceModules
     endpoint: segraef
     type: github
-    ref: 'refs/heads/main'
+    ref: $(ref)
 
 stages:
   - stage: deployment
