@@ -70,7 +70,7 @@ parameters:
 ##---------------------------------------------##
 jobs:
   - job:
-    displayName: 'Deploying $(BUILD_DEFINITIONNAME)' # Auto-populated
+    displayName: 'Deploying {{ parameters.displayName }}' # Auto-populated
     timeoutInMinutes: ${{ parameters.defaultJobTimeoutInMinutes }}
     pool:
       ${{ if ne(parameters.vmImage, '') }}:
