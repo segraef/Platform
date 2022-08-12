@@ -45,6 +45,7 @@
 
 parameters:
   # Pipeline-related parameters
+  jobName: ''
   displayName: ''
   checkoutRepositories: ''
   environment: 'DEV'
