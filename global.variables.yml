@@ -28,3 +28,11 @@ variables:
   # If using the latest version of the Az PowerShell modules, set `preferredAzurePowerShellVersion` to an empty string ''.
   # If overriding the Az PowerShell module version, set to the version. Example: '4.4.0'
   preferredAzurePowerShellVersion: ''
+
+  resources:
+  repositories:
+  - repository: modules
+    name: $(modulesRepository)
+    endpoint: segraef
+    type: github
+    ref: 'refs/heads/users/segraef/po'
