@@ -1,7 +1,7 @@
 name: $(resourceGroupName)
 
 parameters:
-- name: repository
+- name: modulesRepository
   type: string
   default: Azure/ResourceModules
 - name: ref
@@ -35,7 +35,7 @@ variables:
 resources:
   repositories:
   - repository: modules
-    name: ${{ parameters.repository }}
+    name: $(modulesRepository)
     endpoint: ${{ parameters.endpoint }}
     type: ${{ parameters.type }}
     ref: ${{ parameters.ref }}

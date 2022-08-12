@@ -14,6 +14,10 @@ variables:
 
   vstsOrganizationURI: '$(System.CollectionUri)' # The URI of the TFS collection or Azure DevOps organization. For example: https://dev.azure.com/fabrikam/.
   vstsProject: '$(System.TeamProject)'
+  modulesRepository: Azure/ResourceModules # The repository hosting the deployment code.
+  ref: 'users/segraef/po'
+  type:
+  endpoint: segraef
   pipelineFunctionsPath: 'utilities/pipelines'
 
   ######################################
