@@ -69,7 +69,7 @@ parameters:
 ## TEMPLATE LOGIC                              ##
 ##---------------------------------------------##
 jobs:
-  - job: deploy
+  - job:
     displayName: 'Deploying $(BUILD_DEFINITIONNAME) - {{ parameters.displayName }}' # Auto-populated
     timeoutInMinutes: ${{ parameters.defaultJobTimeoutInMinutes }}
     pool:
