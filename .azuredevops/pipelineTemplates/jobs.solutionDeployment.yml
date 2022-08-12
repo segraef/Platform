@@ -183,172 +183,174 @@ jobs:
 
             # [Validation] task(s)
             #---------------------
-            - task: AzurePowerShell@5
-              displayName: 'Validate template file via connection [${{ parameters.serviceConnection }}]'
-              inputs:
-                azureSubscription: ${{ parameters.serviceConnection }}
-                azurePowerShellVersion: 'latestVersion'
-                preferredAzurePowerShellVersion: ''
-                ScriptType: InlineScript
-                pwsh: true
-                inline: |
-                  # Load used functions
-                  . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
+            - ${{ if eq( parameters.whatif, true) }}:
+              - task: AzurePowerShell@5
+                displayName: 'Validate template file via connection [${{ parameters.serviceConnection }}]'
+                inputs:
+                  azureSubscription: ${{ parameters.serviceConnection }}
+                  azurePowerShellVersion: 'latestVersion'
+                  preferredAzurePowerShellVersion: ''
+                  ScriptType: InlineScript
+                  pwsh: true
+                  inline: |
+                    # Load used functions
+                    . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
 
-                  # Fetching parameters
-                  $location = '${{ parameters.location }}'
-                  $resourceGroupName = '${{ parameters.resourceGroupName }}'
-                  $subscriptionId = '${{ parameters.subscriptionId }}'
-                  $managementGroupId = '${{ parameters.managementGroupId }}'
+                    # Fetching parameters
+                    $location = '${{ parameters.location }}'
+                    $resourceGroupName = '${{ parameters.resourceGroupName }}'
+                    $subscriptionId = '${{ parameters.subscriptionId }}'
+                    $managementGroupId = '${{ parameters.managementGroupId }}'
 
-                  #Prioritizing the bicep file
-                  $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                  if (-not (Test-Path $moduleTemplateFilePath)) {
-                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                  }
+                    #Prioritizing the bicep file
+                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+                    if (-not (Test-Path $moduleTemplateFilePath)) {
+                      $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+                    }
 
-                  # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
-                  $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
+                    # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
+                    $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
-                  if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
-                      $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
-                      $moduleTemplatePossibleParameters = $moduleTemplateContent.parameters.Keys
-                  } else {
-                      $moduleTemplatePossibleParameters = ((Get-Content $moduleTemplateFilePath -Raw) | ConvertFrom-Json -AsHashtable).parameters.keys
-                  }
+                    if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
+                        $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
+                        $moduleTemplatePossibleParameters = $moduleTemplateContent.parameters.Keys
+                    } else {
+                        $moduleTemplatePossibleParameters = ((Get-Content $moduleTemplateFilePath -Raw) | ConvertFrom-Json -AsHashtable).parameters.keys
+                    }
 
-                  # ----------- #
-                  # INVOKE TEST #
-                  # ----------- #
+                    # ----------- #
+                    # INVOKE TEST #
+                    # ----------- #
 
-                  # Building input object
-                  $functionInput = @{
-                      templateFilePath     = $moduleTemplateFilePath
-                      parameterFilePath    = $moduleTestFilePath
-                      location             = $location
-                      resourceGroupName    = $resourceGroupName
-                      subscriptionId       = $subscriptionId
-                      managementGroupId    = $managementGroupId
-                      additionalParameters = @{}
-                  }
+                    # Building input object
+                    $functionInput = @{
+                        templateFilePath     = $moduleTemplateFilePath
+                        parameterFilePath    = $moduleTestFilePath
+                        location             = $location
+                        resourceGroupName    = $resourceGroupName
+                        subscriptionId       = $subscriptionId
+                        managementGroupId    = $managementGroupId
+                        additionalParameters = @{}
+                    }
 
-                  Write-Verbose "Invoke task with" -Verbose
-                  Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
+                    Write-Verbose "Invoke task with" -Verbose
+                    Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
 
-                  Test-TemplateDeployment @functionInput -Verbose
+                    Test-TemplateDeployment @functionInput -Verbose
 
             # [Deployment] task(s)
             #---------------------
-            - task: AzurePowerShell@5
-              name: deployModule
-              displayName: 'Deploy template file via connection [${{ parameters.serviceConnection }}]'
-              inputs:
-                azureSubscription: ${{ parameters.serviceConnection }}
-                azurePowerShellVersion: 'latestVersion'
-                preferredAzurePowerShellVersion: ''
-                pwsh: true
-                ScriptType: InlineScript
-                inline: |
-                  # Load used functions
-                  . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
+            - ${{ if ne( parameters.whatif, true) }}:
+              - task: AzurePowerShell@5
+                name: deployModule
+                displayName: 'Deploy template file via connection [${{ parameters.serviceConnection }}]'
+                inputs:
+                  azureSubscription: ${{ parameters.serviceConnection }}
+                  azurePowerShellVersion: 'latestVersion'
+                  preferredAzurePowerShellVersion: ''
+                  pwsh: true
+                  ScriptType: InlineScript
+                  inline: |
+                    # Load used functions
+                    . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
 
-                  $location = '${{ parameters.location }}'
-                  $resourceGroupName = '${{ parameters.resourceGroupName }}'
-                  $subscriptionId = '${{ parameters.subscriptionId }}'
-                  $managementGroupId = '${{ parameters.managementGroupId }}'
+                    $location = '${{ parameters.location }}'
+                    $resourceGroupName = '${{ parameters.resourceGroupName }}'
+                    $subscriptionId = '${{ parameters.subscriptionId }}'
+                    $managementGroupId = '${{ parameters.managementGroupId }}'
 
-                  #Prioritizing the bicep file
-                  $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                  if (-not (Test-Path $moduleTemplateFilePath)) {
-                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                  }
+                    #Prioritizing the bicep file
+                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+                    if (-not (Test-Path $moduleTemplateFilePath)) {
+                      $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+                    }
 
-                  # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
-                  $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
+                    # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
+                    $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
-                  if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
-                      $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
-                      $moduleTemplatePossibleParameters = $moduleTemplateContent.parameters.Keys
-                  } else {
-                      $moduleTemplatePossibleParameters = ((Get-Content $moduleTemplateFilePath -Raw) | ConvertFrom-Json -AsHashtable).parameters.keys
-                  }
+                    if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
+                        $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
+                        $moduleTemplatePossibleParameters = $moduleTemplateContent.parameters.Keys
+                    } else {
+                        $moduleTemplatePossibleParameters = ((Get-Content $moduleTemplateFilePath -Raw) | ConvertFrom-Json -AsHashtable).parameters.keys
+                    }
 
-                  # ----------- #
-                  # INVOKE TEST #
-                  # ----------- #
+                    # ----------- #
+                    # INVOKE TEST #
+                    # ----------- #
 
-                  # Building input object
-                  $functionInput = @{
-                      templateFilePath     = $moduleTemplateFilePath
-                      parameterFilePath    = $moduleTestFilePath
-                      location             = $location
-                      resourceGroupName    = $resourceGroupName
-                      subscriptionId       = $subscriptionId
-                      managementGroupId    = $managementGroupId
-                      additionalParameters = @{}
-                  }
+                    # Building input object
+                    $functionInput = @{
+                        templateFilePath     = $moduleTemplateFilePath
+                        parameterFilePath    = $moduleTestFilePath
+                        location             = $location
+                        resourceGroupName    = $resourceGroupName
+                        subscriptionId       = $subscriptionId
+                        managementGroupId    = $managementGroupId
+                        additionalParameters = @{}
+                    }
 
-                  Write-Verbose 'Invoke task with' -Verbose
-                  Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
+                    Write-Verbose 'Invoke task with' -Verbose
+                    Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
 
-                  # Invoke deployment
-                  $res = New-TemplateDeployment @functionInput -Verbose
+                    # Invoke deployment
+                    $res = New-TemplateDeployment @functionInput -Verbose
 
-                  # Get deployment name
-                  $deploymentName = $res.deploymentName
-                  Write-Verbose "Deployment name: $deploymentName" -Verbose
-                  Write-Host "##vso[task.setvariable variable=deploymentName]$deploymentName"
-                  Write-Host "##vso[task.setvariable variable=deploymentName;isOutput=true]$deploymentName"
+                    # Get deployment name
+                    $deploymentName = $res.deploymentName
+                    Write-Verbose "Deployment name: $deploymentName" -Verbose
+                    Write-Host "##vso[task.setvariable variable=deploymentName]$deploymentName"
+                    Write-Host "##vso[task.setvariable variable=deploymentName;isOutput=true]$deploymentName"
 
-                  # Populate further outputs
-                  $deploymentOutputHash=@{}
+                    # Populate further outputs
+                    $deploymentOutputHash=@{}
 
-                  foreach ($outputKey in $res.deploymentOutput.Keys) {
-                    Write-Output ('##vso[task.setvariable variable={0}]{1}' -f $outputKey, $res.deploymentOutput[$outputKey].Value)
-                    $deploymentOutputHash.add($outputKey,$res.deploymentOutput[$outputKey].Value)
-                  }
+                    foreach ($outputKey in $res.deploymentOutput.Keys) {
+                      Write-Output ('##vso[task.setvariable variable={0}]{1}' -f $outputKey, $res.deploymentOutput[$outputKey].Value)
+                      $deploymentOutputHash.add($outputKey,$res.deploymentOutput[$outputKey].Value)
+                    }
 
-                  $deploymentOutput = $deploymentOutputHash | ConvertTo-Json -Compress -Depth 100
-                  Write-Verbose "Deployment output: $deploymentOutput" -Verbose
-                  Write-Output "##vso[task.setvariable variable=deploymentOutput;isOutput=true]$deploymentOutput"
+                    $deploymentOutput = $deploymentOutputHash | ConvertTo-Json -Compress -Depth 100
+                    Write-Verbose "Deployment output: $deploymentOutput" -Verbose
+                    Write-Output "##vso[task.setvariable variable=deploymentOutput;isOutput=true]$deploymentOutput"
 
-                  if ($res.ContainsKey('exception')) {
-                    # Happens only if there is an exception
-                    throw $res.exception
-                  }
+                    if ($res.ContainsKey('exception')) {
+                      # Happens only if there is an exception
+                      throw $res.exception
+                    }
 
-            # [Removal] task(s)
-            #------------------
-            - task: AzurePowerShell@5
-              displayName: 'Remove deployed resources via [${{ parameters.serviceConnection }}]'
-              condition: and(succeededOrFailed(), eq('${{ parameters.removeDeployment }}', 'True'), not(eq(variables['deploymentName'],'')), not(startsWith(variables['deploymentName'], 'variables[' )))
-              inputs:
-                azureSubscription: ${{ parameters.serviceConnection }}
-                azurePowerShellVersion: ${{ parameters.azurePowerShellVersion }}
-                preferredAzurePowerShellVersion: ${{ parameters.preferredAzurePowerShellVersion }}
-                ScriptType: InlineScript
-                failOnStandardError: false
-                pwsh: true
-                inline: |
-                  # Load used function
-                  . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
+              # [Removal] task(s)
+              #------------------
+              - task: AzurePowerShell@5
+                displayName: 'Remove deployed resources via [${{ parameters.serviceConnection }}]'
+                condition: and(succeededOrFailed(), eq('${{ parameters.removeDeployment }}', 'True'), not(eq(variables['deploymentName'],'')), not(startsWith(variables['deploymentName'], 'variables[' )))
+                inputs:
+                  azureSubscription: ${{ parameters.serviceConnection }}
+                  azurePowerShellVersion: ${{ parameters.azurePowerShellVersion }}
+                  preferredAzurePowerShellVersion: ${{ parameters.preferredAzurePowerShellVersion }}
+                  ScriptType: InlineScript
+                  failOnStandardError: false
+                  pwsh: true
+                  inline: |
+                    # Load used function
+                    . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
 
-                  #Prioritizing the bicep file
-                  $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                  if (-not (Test-Path $moduleTemplateFilePath)) {
-                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                  }
+                    #Prioritizing the bicep file
+                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+                    if (-not (Test-Path $moduleTemplateFilePath)) {
+                      $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+                    }
 
-                  $functionInput = @{
-                    TemplateFilePath  = $moduleTemplateFilePath
-                    ResourceGroupName = '${{ parameters.resourceGroupName }}'
-                    subscriptionId    = '${{ parameters.subscriptionId }}'
-                    ManagementGroupId = '${{ parameters.managementGroupId }}'
-                    deploymentName    = '$(deploymentName)'
-                    Verbose           = $true
-                  }
+                    $functionInput = @{
+                      TemplateFilePath  = $moduleTemplateFilePath
+                      ResourceGroupName = '${{ parameters.resourceGroupName }}'
+                      subscriptionId    = '${{ parameters.subscriptionId }}'
+                      ManagementGroupId = '${{ parameters.managementGroupId }}'
+                      deploymentName    = '$(deploymentName)'
+                      Verbose           = $true
+                    }
 
-                  Write-Verbose 'Invoke task with' -Verbose
-                  Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
+                    Write-Verbose 'Invoke task with' -Verbose
+                    Write-Verbose ($functionInput | ConvertTo-Json | Out-String) -Verbose
 
-                  Initialize-DeploymentRemoval @functionInput
+                    Initialize-DeploymentRemoval @functionInput
