@@ -41,8 +41,44 @@ resources:
     type: github
 
 stages:
-  - stage: deployment
-    displayName: Deployment
+  - stage:
+    displayName: WhatIf
+    jobs:
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          jobName: rg
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          jobName: rg2
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          jobName: rg3
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          jobName: rg4
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+
+  - stage:
+    displayName: Deploy
     jobs:
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
@@ -58,6 +94,8 @@ stages:
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
+          dependsOn:
+            - rg
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
           jobName: rg3
@@ -65,6 +103,8 @@ stages:
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
+          dependsOn:
+            - rg
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
           jobName: rg4
@@ -72,3 +112,5 @@ stages:
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
+          dependsOn:
+            - rg
