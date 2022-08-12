@@ -45,7 +45,7 @@
 
 parameters:
   # Pipeline-related parameters
-  displayName: $(BUILD_DEFINITIONNAME)
+  displayName: ''
   checkoutRepositories: ''
   serviceConnection: '$(serviceConnection)'
   poolName: '$(poolName)'
