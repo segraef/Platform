@@ -36,9 +36,9 @@ resources:
   repositories:
   - repository: modules
     name: $(modulesRepository)
+    ref: $(ref)
     endpoint: segraef
     type: github
-    ref: $(ref)
 
 stages:
   - stage: deployment

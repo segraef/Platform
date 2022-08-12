@@ -237,10 +237,6 @@ jobs:
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
 
-            # Prepare general parameters
-            # --------------------------
-            $projectSettings = Get-Content -Path '$(ENVSOURCEDIRECTORY)\settings.json' | ConvertFrom-Json
-
             $location = '${{ parameters.location }}'
             $resourceGroupName = '${{ parameters.resourceGroupName }}'
             $subscriptionId = '${{ parameters.subscriptionId }}'
@@ -275,14 +271,6 @@ jobs:
                 subscriptionId       = $subscriptionId
                 managementGroupId    = $managementGroupId
                 additionalParameters = @{}
-            }
-
-            # Handle additional parameters
-            # ----------------------------
-            if (-not [String]::IsNullOrEmpty($projectSettings.enableDefaultTelemetry) -and ($moduleTemplatePossibleParameters.Keys -contains 'enableDefaultTelemetry')) {
-                $functionInput['additionalParameters'] += @{
-                    enableDefaultTelemetry = $projectSettings.enableDefaultTelemetry
-                }
             }
 
             Write-Verbose 'Invoke task with' -Verbose
