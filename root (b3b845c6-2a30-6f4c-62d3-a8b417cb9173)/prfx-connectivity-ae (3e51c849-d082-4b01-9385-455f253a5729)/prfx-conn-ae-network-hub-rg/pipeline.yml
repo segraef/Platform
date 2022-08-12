@@ -37,7 +37,7 @@ resources:
   - repository: modules
     name: $(modulesRepository)
     endpoint: segraef
-    type: $(type)
+    type: github
     ref: $(ref)
 
 stages:
