@@ -89,36 +89,36 @@ jobs:
                 fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
                 path: 's/${{ checkoutRepository }}'
 
-      # [Multi Repo] Support task
-      #--------------------------
-      - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
-        - task: PowerShell@2
-          displayName: Handle Multi-Repo Invocation
-          inputs:
-            targetType: inline
-            pwsh: true
-            script: |
-              # ---------------------------- #
-              # HANDLE MULTI-REPO INVOCATION #
-              # ---------------------------- #
+          # [Multi Repo] Support task
+          #--------------------------
+          - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
+            - task: PowerShell@2
+              displayName: Handle Multi-Repo Invocation
+              inputs:
+                targetType: inline
+                pwsh: true
+                script: |
+                  # ---------------------------- #
+                  # HANDLE MULTI-REPO INVOCATION #
+                  # ---------------------------- #
 
-              # Handle multiple-repositories
-              if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
-                Write-Verbose "Multi-Repo Checkout" -Verbose
-                $sourceDirectory = '$(Build.Repository.Name)'
-                $sourceDirectory = $sourceDirectory.Split('/')[-1]
-                $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '${{ parameters.modulePath }}'
-                Write-Verbose "modulePath: $modulePath" -Verbose
-                Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
-              } else {
-                Write-Verbose "No Multi-Repo Checkout" -Verbose
-                $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
-                $sourceDirectory = ''
-                Write-Verbose "modulePath: $modulePath" -Verbose
-                Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
-              }
-              Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
-              Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
+                  # Handle multiple-repositories
+                  if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
+                    Write-Verbose "Multi-Repo Checkout" -Verbose
+                    $sourceDirectory = '$(Build.Repository.Name)'
+                    $sourceDirectory = $sourceDirectory.Split('/')[-1]
+                    $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '${{ parameters.modulePath }}'
+                    Write-Verbose "modulePath: $modulePath" -Verbose
+                    Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
+                  } else {
+                    Write-Verbose "No Multi-Repo Checkout" -Verbose
+                    $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
+                    $sourceDirectory = ''
+                    Write-Verbose "modulePath: $modulePath" -Verbose
+                    Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
+                  }
+                  Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
+                  Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
 
       # [Agent] Prepare environment
       #----------------------------
