@@ -47,7 +47,7 @@ parameters:
   # Pipeline-related parameters
   displayName: ''
   checkoutRepositories: ''
-  environment: ''
+  environment: 'DEV'
   serviceConnection: '$(serviceConnection)'
   poolName: '$(poolName)'
   vmImage: '$(vmImage)'
