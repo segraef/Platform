@@ -13,7 +13,7 @@ parameters:
   values:
   - github
   - git
-- name: endpoint
+- name: endpoints
   type: string
   default: segraef
 
