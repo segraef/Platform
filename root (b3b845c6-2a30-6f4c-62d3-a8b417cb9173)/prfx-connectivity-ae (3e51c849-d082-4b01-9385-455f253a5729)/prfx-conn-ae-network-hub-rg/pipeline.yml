@@ -37,7 +37,7 @@ resources:
   - repository: modules
     name: $(modulesRepository)
     endpoint: segraef
-    type: ${{ parameters.type }}
+    type: '${{ parameters.type }}'
     ref: ${{ parameters.ref }}
 
 stages:
