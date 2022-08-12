@@ -36,7 +36,7 @@ resources:
   repositories:
   - repository: modules
     name: $(modulesRepository)
-    endpoint: '$(endpoints)'
+    endpoint: segraef
     type: ${{ parameters.type }}
     ref: ${{ parameters.ref }}
 

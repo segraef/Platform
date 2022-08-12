@@ -16,7 +16,7 @@ variables:
   vstsProject: '$(System.TeamProject)'
   modulesRepository: Azure/ResourceModules # The repository hosting the deployment code.
   ref: 'users/segraef/po'
-  type:
+  type: github
   endpoints: segraef
   pipelineFunctionsPath: 'utilities/pipelines'
 
