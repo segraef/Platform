@@ -1,22 +1,5 @@
 name: $(resourceGroupName)
 
-parameters:
-- name: modulesRepository
-  type: string
-  default: Azure/ResourceModules
-- name: ref
-  type: string
-  default: main
-- name: type
-  type: string
-  default: github
-  values:
-  - github
-  - git
-- name: endpoints
-  type: string
-  default: segraef
-
 pr: none
 
 trigger:
@@ -104,7 +87,7 @@ stages:
           checkoutRepositories:
             - modules
           dependsOn:
-            - rg
+            - rg2
       - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
         parameters:
           jobName: rg4
