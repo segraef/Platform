@@ -1,5 +1,22 @@
 name: $(resourceGroupName)
 
+parameters:
+- name: repository
+  type: string
+  default: Azure/ResourceModules
+- name: ref
+  type: string
+  default: main
+- name: type
+  type: string
+  default: github
+  values:
+  - github
+  - git
+- name: endpoint
+  type: string
+  default: segraef
+
 pr: none
 
 trigger:
@@ -18,10 +35,10 @@ variables:
 resources:
   repositories:
   - repository: modules
-    name: Azure/ResourceModules
-    endpoint: segraef
-    type: github
-    ref: $(ref)
+    name: ${{ parameters.repository }}
+    endpoint: ${{ parameters.endpoint }}
+    type: ${{ parameters.type }}
+    ref: ${{ parameters.ref }}
 
 stages:
   - stage: deployment
