@@ -343,8 +343,14 @@ jobs:
             # Load used function
             . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
 
+            #Prioritizing the bicep file
+            $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+            if (-not (Test-Path $moduleTemplateFilePath)) {
+              $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+            }
+
             $functionInput = @{
-              TemplateFilePath  = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
+              TemplateFilePath  = $moduleTemplateFilePath
               ResourceGroupName = '${{ parameters.resourceGroupName }}'
               subscriptionId    = '${{ parameters.subscriptionId }}'
               ManagementGroupId = '${{ parameters.managementGroupId }}'
