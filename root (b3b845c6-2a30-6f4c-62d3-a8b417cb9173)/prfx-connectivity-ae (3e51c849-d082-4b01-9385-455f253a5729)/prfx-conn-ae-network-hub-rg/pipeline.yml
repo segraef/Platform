@@ -21,7 +21,6 @@ resources:
     name: $(modulesRepository)
     endpoint: segraef
     type: github
-    ref: $(ref)
 
 stages:
   - stage: deployment
