@@ -29,7 +29,7 @@ variables:
   # If overriding the Az PowerShell module version, set to the version. Example: '4.4.0'
   preferredAzurePowerShellVersion: ''
 
-  resources:
+resources:
   repositories:
   - repository: modules
     name: $(modulesRepository)
