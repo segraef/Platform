@@ -122,6 +122,7 @@ jobs:
 
       # [Agent] Prepare environment
       #----------------------------
+      - pwsh: 'env | sort'
       - task: PowerShell@2
         displayName: 'Setup agent for deployment'
         enabled: false
@@ -129,20 +130,6 @@ jobs:
           targetType: inline
           pwsh: true
           script: |
-            Write-Output '#########'
-            Write-Output '$(Pipeline.Workspace)'
-            Write-Output '$(Build.SourcesDirectory)'
-            Write-Output '$(System.DefaultWorkingDirectory)'
-            Write-Output '$(Build.Repository.LocalPath)'
-            Write-Output '$(Build.Repository.Name)'
-            Write-Output '$(Build.Repository.ID)'
-            Write-Output '$(Build.Repository.Name)'
-            Write-Output '$(Build.SourceBranch)'
-            # Get-ChildItem -Path '$(System.DefaultWorkingDirectory)' -recurse | select FullName
-            Write-Output '#########'
-
-            Write-Output '$(ENVSOURCEDIRECTORY)'
-
             # Load used functions
             . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
