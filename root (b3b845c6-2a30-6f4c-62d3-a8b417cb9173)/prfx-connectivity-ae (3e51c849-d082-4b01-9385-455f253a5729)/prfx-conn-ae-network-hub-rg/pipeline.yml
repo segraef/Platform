@@ -15,6 +15,14 @@ variables:
   - template: pipeline.variables.yml
   - template: /global.variables.yml
 
+resources:
+  repositories:
+  - repository: modules
+    name: $(modulesRepository)
+    endpoint: segraef
+    type: github
+    ref: $(ref)
+
 stages:
   - stage: deployment
     displayName: Deployment
