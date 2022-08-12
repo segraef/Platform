@@ -45,6 +45,7 @@
 
 parameters:
   # Pipeline-related parameters
+  displayName: $(BUILD_DEFINITIONNAME)
   checkoutRepositories: ''
   serviceConnection: '$(serviceConnection)'
   poolName: '$(poolName)'
@@ -69,7 +70,7 @@ parameters:
 ##---------------------------------------------##
 jobs:
   - job: deploy
-    displayName: 'Deploying ' # Auto-populated
+    displayName: 'Deploying $(BUILD_DEFINITIONNAME) - {{ parameters.displayName }}' # Auto-populated
     timeoutInMinutes: ${{ parameters.defaultJobTimeoutInMinutes }}
     pool:
       ${{ if ne(parameters.vmImage, '') }}:

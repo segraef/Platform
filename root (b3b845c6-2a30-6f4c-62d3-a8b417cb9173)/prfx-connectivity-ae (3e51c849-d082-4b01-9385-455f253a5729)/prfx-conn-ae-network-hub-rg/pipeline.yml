@@ -51,3 +51,24 @@ stages:
           removeDeployment: true
           checkoutRepositories:
             - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          removeDeployment: true
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          removeDeployment: true
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+        parameters:
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          removeDeployment: true
+          checkoutRepositories:
+            - modules
