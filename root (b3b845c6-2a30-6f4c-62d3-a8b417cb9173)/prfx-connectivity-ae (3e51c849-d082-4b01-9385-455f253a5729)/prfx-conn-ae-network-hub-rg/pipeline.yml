@@ -27,35 +27,39 @@ stages:
   - stage:
     displayName: WhatIf
     jobs:
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
           jobName: rg
+          displayName: 'Resource Group'
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           whatif: true
           checkoutRepositories:
             - modules
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          jobName: rg2
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          jobName: networkSecurityGroups
+          displayName: 'Network Security Groups'
+          modulePath: '/modules/Microsoft.Network/networkSecurityGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/networkSecurityGroups/parameters.json'
           whatif: true
           checkoutRepositories:
             - modules
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          jobName: rg3
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          jobName: routeTables
+          displayName: 'Route Tables'
+          modulePath: '/modules/Microsoft.Network/routeTables/'
+          moduleTestFilePath: '$(resourceGroupName)/routeTables/parameters.json'
           whatif: true
           checkoutRepositories:
             - modules
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          jobName: rg4
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          jobName: virtualNetworks
+          displayName: 'Virtual Networks'
+          modulePath: '/modules/Microsoft.Network/virtualNetworks/'
+          moduleTestFilePath: '$(resourceGroupName)/virtualNetworks/parameters.json'
           whatif: true
           checkoutRepositories:
             - modules
@@ -63,37 +67,39 @@ stages:
   - stage:
     displayName: Deploy
     jobs:
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          jobName: rg
+          jobName: resourceGroups
+          displayName: 'Resource Group'
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          jobName: rg2
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          jobName: networkSecurityGroups
+          displayName: 'Network Security Groups'
+          modulePath: '/modules/Microsoft.Network/networkSecurityGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/networkSecurityGroups/parameters.json'
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: routeTables
+          displayName: 'Route Tables'
+          modulePath: '/modules/Microsoft.Network/routeTables/'
+          moduleTestFilePath: '$(resourceGroupName)/routeTables/parameters.json'
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: virtualNetworks
+          displayName: 'Virtual Networks'
+          modulePath: '/modules/Microsoft.Network/virtualNetworks/'
+          moduleTestFilePath: '$(resourceGroupName)/virtualNetworks/parameters.json'
           checkoutRepositories:
             - modules
           dependsOn:
-            - rg
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
-        parameters:
-          jobName: rg3
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
-          checkoutRepositories:
-            - modules
-          dependsOn:
-            - rg2
-      - template: /.azuredevops/pipelineTemplates/jobs.solutionDeployment.yml
-        parameters:
-          jobName: rg4
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
-          checkoutRepositories:
-            - modules
-          dependsOn:
-            - rg
+            - networkSecurityGroups
+            - routeTables
+            - virtualNetworks

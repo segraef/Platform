@@ -74,9 +74,9 @@ parameters:
 jobs:
   - deployment: ${{ parameters.jobName }}${{ parameters.whatif }}
     ${{ if eq( parameters.whatif, true) }}:
-      displayName: ${{ parameters.modulePath }} WhatIf
+      displayName: ${{ parameters.displayName }} WhatIf
     ${{ if ne( parameters.whatif, true) }}:
-      displayName: ${{ parameters.modulePath }}
+      displayName: ${{ parameters.displayName }}
     ${{ if ne( parameters.dependsOn, '') }}:
       dependsOn:
         - ${{ each dependency in parameters.dependsOn }}:
