@@ -1,0 +1,67 @@
+name: 'prfx-id-nw-rg'
+
+pr: none
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - pipelineorchestrated
+  paths:
+    include:
+      - root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-identity-ae (99802d97-d853-436a-880c-8382eda5b974)/prfx-id-nw-rg/*
+
+variables:
+  - template: /global.variables.yml
+  - template: pipeline.variables.yml
+
+resources:
+  repositories:
+  - repository: modules
+    name: $(modulesRepository)
+    ref: $(ref)
+    endpoint: segraef
+    type: github
+
+stages:
+  - stage:
+    displayName: WhatIf
+    jobs:
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: resourceGroups
+          displayName: 'Resource Group'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: networkWatchers
+          displayName: 'Network Watchers'
+          modulePath: '/modules/Microsoft.Network/networkWatchers/'
+          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+
+  - stage:
+    displayName: Deploy
+    jobs:
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: resourceGroups
+          displayName: 'Resource Group'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: networkWatchers
+          displayName: 'Network Watchers'
+          modulePath: '/modules/Microsoft.Network/networkWatchers/'
+          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/parameters.json'
+          checkoutRepositories:
+            - modules
