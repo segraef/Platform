@@ -41,7 +41,7 @@ stages:
           jobName: networkWatchers
           displayName: 'Network Watchers'
           modulePath: '/modules/Microsoft.Network/networkWatchers/'
-          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/parameters.json'
+          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/ae.parameters.json'
           whatif: true
           checkoutRepositories:
             - modules
