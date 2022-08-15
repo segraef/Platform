@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "prfx-test-wus-aa001"
+        },
+        "location": {
+            "value": "westus"
+        },
+        "modules": {
+            "value": [{
+                "name": "PSWindowsUpdate",
+                "version": "latest",
+                "uri": "https://www.powershellgallery.com/api/v2/package"
+            }]
+        },
+        "systemAssignedIdentity": {
+            "value": true
+        }
+    }
+}

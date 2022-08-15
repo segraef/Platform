@@ -1,0 +1,9 @@
+variables:
+  resourceGroupName: ''
+  environmentPath: 'governance/managementGroups'
+  location: 'Australia East'
+  vmImage: 'ubuntu-latest'
+  poolName: ''
+  serviceConnection: 'graef.io'
+  subscriptionId: '47041275-ef6a-42af-a770-ee0fb2227eec'
+  managementGroupId: ''

@@ -1,0 +1,9 @@
+variables:
+  resourceGroupName: 'prfx-id-ae-network-rg'
+  environmentPath: 'root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-identity-ae (99802d97-d853-436a-880c-8382eda5b974)'
+  location: 'Australia East'
+  vmImage: 'ubuntu-latest'
+  poolName: ''
+  serviceConnection: 'graef.io'
+  subscriptionId: '47041275-ef6a-42af-a770-ee0fb2227eec'
+  managementGroupId: ''

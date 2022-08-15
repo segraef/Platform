@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "tier1MgmtGroups": {
+            "value": [{
+                "id": "284a3525-0ec7-454c-8a03-90ed7e7a68ce",
+                "displayName": "root"
+            }]
+        },
+        "tier2MgmtGroups": {
+            "value": [{
+                    "id": "Platform",
+                    "displayName": "Platform Management",
+                    "parentId": "root"
+                },
+                {
+                    "id": "LandingZones",
+                    "displayName": "Landing Zones",
+                    "parentId": "root"
+                },
+                {
+                    "id": "Sandbox",
+                    "displayName": "Sandbox",
+                    "parentId": "root"
+                },
+                {
+                    "id": "Quarantine",
+                    "displayName": "Quarantine",
+                    "parentId": "root"
+                },
+                {
+                    "id": "Decommissioned",
+                    "displayName": "Decommissioned",
+                    "parentId": "root"
+                }
+            ]
+        },
+        "tier3MgmtGroups": {
+            "value": [{
+                    "id": "Connectivity",
+                    "displayName": "Connectivity",
+                    "parentId": "Platform"
+                },
+                {
+                    "id": "Identity",
+                    "displayName": "Identity",
+                    "parentId": "Platform"
+                },
+                {
+                    "id": "Management",
+                    "displayName": "Management",
+                    "parentId": "Platform"
+                },
+                {
+                    "id": "Corp",
+                    "displayName": "Corp",
+                    "parentId": "LandingZones"
+                },
+                {
+                    "id": "Online",
+                    "displayName": "Online",
+                    "parentId": "LandingZones"
+                }
+            ]
+        },
+        "authForNewMG": {
+            "value": true
+        },
+        "defaultMgId": {
+            "value": "Quarantine"
+        },
+        "configMGSettings": {
+            "value": true
+        }
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "LowDiskSpaceLog"
+        },
+        "alertDescription": {
+            "value": "Low Disk Space Log Alert"
+        },
+        "severity": {
+            "value": 3
+        },
+        "scopes": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.operationalinsights/workspaces/prfx-mgmt-ae-log-001"
+            ]
+        },
+        "actions": {
+            "value": [
+                "/subscriptions/c3aa5bd4-c74d-47eb-ad55-e5a604e7122a/resourcegroups/prfx-mgmt-ae-monitoring-rg/providers/microsoft.insights/actiongroups/prfx-mgmt-ae-ag-001"
+            ]
+        },
+        "evaluationFrequency": {
+            "value": "PT5M"
+        },
+        "windowSize": {
+            "value": "PT5M"
+        },
+        "suppressForMinutes": {
+            "value": "PT5M"
+        },
+        "queryTimeRange": {
+            "value": "PT5M"
+        },
+        "autoMitigate": {
+            "value": false
+        },
+        "criterias": {
+            "value": {
+                "allOf": [{
+                    "query": "let setgbvalue = 10; Perf | where TimeGenerated > ago(1h) | where ObjectName == \"LogicalDisk\" and CounterName == \"Free Megabytes\" | where InstanceName !contains \"D:\" | where InstanceName  !contains \"HarddiskVolume\" | extend FreeSpaceGB = CounterValue/1024 | summarize FreeSpace = min(FreeSpaceGB) by Computer, InstanceName | where FreeSpace < setgbvalue",
+                    "timeAggregation": "Count",
+                    "dimensions": [],
+                    "operator": "GreaterThan",
+                    "threshold": 0,
+                    "failingPeriods": {
+                        "numberOfEvaluationPeriods": 1,
+                        "minFailingPeriodsToAlert": 1
+                    }
+                }]
+            }
+        }
+    }
+}

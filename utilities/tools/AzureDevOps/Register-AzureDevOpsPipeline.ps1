@@ -59,6 +59,9 @@ Defaults to '.azuredevops/modulePipelines'.
 Optional. The filter criteria of the pipeline files like the extension '*.yml', 'pipeline.yml' or '*.yaml'.
 Defaults to '*.yml'.
 
+.PARAMETER CreateSubFolders
+Optional. For each pipeline folder create respective target pipeline folders.
+
 .PARAMETER CreateBuildValidation
 Optional. Create an additional pull request build validation rule for the pipelines.
 
@@ -133,6 +136,9 @@ function Register-AzureDevOpsPipeline {
         [string] $PipelineFilter = '*.yml',
 
         [Parameter(Mandatory = $false)]
+        [bool] $CreateSubFolders = $false,
+
+        [Parameter(Mandatory = $false)]
         [bool] $CreateBuildValidation = $false
     )
 
@@ -141,22 +147,33 @@ function Register-AzureDevOpsPipeline {
     Write-Verbose '##############'
     Write-Verbose 'Identify relevant Azure Pipelines to be updated'
 
-    $localPipelinePaths = (Get-ChildItem -Path $RelativePipelinePath -Recurse -Filter $PipelineFilter).FullName
+    $localPipelinePaths = (Get-ChildItem -Path $RelativePipelinePath -Recurse -Filter $PipelineFilter)
     Write-Verbose ('Found [{0}] local Pipeline(s) in folder path [{1}]' -f $localPipelinePaths.Count, $RelativePipelinePath)
 
     $pipelinesArray = @()
     foreach ($localPipelinePath in $localPipelinePaths) {
-        $line = (Get-Content -Path $localPipelinePath)[0]
+        $line = (Get-Content -Path $localPipelinePath.FullName)[0]
         $pipelineName = ($line -split 'name:')[1].Replace("'", '').Trim()
+
+        if ($CreateSubFolders) {
+            $FolderPath = ($PipelineTargetPath + $localPipelinePath.DirectoryName.Split("$PipelineTargetPath")[-1])
+            $ymlPath = ($relativePipelinePath + $localPipelinePath.FullName.Split("$PipelineTargetPath")[-1])
+        } else {
+            $FolderPath = $PipelineTargetPath
+            $ymlPath = Join-Path $relativePipelinePath (Split-Path $localPipelinePath -Leaf)
+        }
+
         $pipelinesArray += @{
             ProjectName      = $ProjectName
             SourceRepository = $SourceRepository
             BranchName       = $BranchName
-            FolderPath       = $PipelineTargetPath
-            ymlPath          = Join-Path $relativePipelinePath (Split-Path $localPipelinePath -Leaf)
+            FolderPath       = $FolderPath
+            ymlPath          = $ymlPath
             pipelineName     = $pipelineName
         }
     }
+
+    Write-Output $pipelinesArray
 
     Write-Verbose '###############'
     Write-Verbose '# Remote Data #'
@@ -186,11 +203,12 @@ function Register-AzureDevOpsPipeline {
     Write-Verbose '##############'
     if ($SourceRepositoryType -eq 'GitHub') {
         $azureDevOpsToGitHubConnection = az devops service-endpoint list -o 'Json' | ConvertFrom-Json | Where-Object { $_.Name -eq $GitHubServiceConnectionName }
+        Write-Verbose ('Using GitHub connection [{0}]' -f $GitHubServiceConnectionName)
     }
 
     Write-Verbose '----------------------------------'
     foreach ($pipeline in $pipelinesToBeUpdated) {
-        Write-Verbose ('Create Azure pipeline [{0}]' -f $pipeline.pipelineName)
+        Write-Verbose ('Create Azure pipeline [{0}] in folder [{1}]' -f $pipeline.pipelineName, $pipeline.FolderPath)
 
         $inputObject = @(
             '--repository', $pipeline.SourceRepository,
