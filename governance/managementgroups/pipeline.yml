@@ -1,0 +1,50 @@
+name: 'prfx-id-ae-network-rg'
+
+pr: none
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - pipelineorchestrated
+  paths:
+    include:
+      - root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-connectivity-ae (3e51c849-d082-4b01-9385-455f253a5729)/prfx-conn-nw-rg/*
+
+variables:
+  - template: /global.variables.yml
+  - template: pipeline.variables.yml
+
+resources:
+  repositories:
+  - repository: modules
+    name: $(modulesRepository)
+    ref: $(ref)
+    endpoint: segraef
+    type: github
+
+stages:
+  - stage:
+    displayName: WhatIf
+    jobs:
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: resourceGroups
+          displayName: 'Resource Group'
+          modulePath: 'governance/managementgroups/'
+          moduleTestFilePath: 'parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+
+  - stage:
+    displayName: Deploy
+    jobs:
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: resourceGroups
+          displayName: 'Resource Group'
+          modulePath: 'governance/managementgroups/'
+          moduleTestFilePath: 'parameters.json'
+          checkoutRepositories:
+            - modules

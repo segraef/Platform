@@ -40,7 +40,7 @@ stages:
         parameters:
           jobName: actionGroups
           displayName: 'Action Groups'
-          modulePath: '/modules/Microsoft.Network/actionGroups/'
+          modulePath: '/modules/Microsoft.Insights/actionGroups/'
           moduleTestFilePath: '$(resourceGroupName)/actionGroups/parameters.json'
           whatif: true
           checkoutRepositories:
@@ -61,7 +61,7 @@ stages:
         parameters:
           jobName: actionGroups
           displayName: 'Network Security Groups'
-          modulePath: '/modules/Microsoft.Network/actionGroups/'
+          modulePath: '/modules/Microsoft.Insights/actionGroups/'
           moduleTestFilePath: '$(resourceGroupName)/actionGroups/parameters.json'
           checkoutRepositories:
             - modules

@@ -60,7 +60,7 @@ Optional. The filter criteria of the pipeline files like the extension '*.yml', 
 Defaults to '*.yml'.
 
 .PARAMETER CreateSubFolders
-Optional. For each pipeline folder create taerget pipeline folders
+Optional. For each pipeline folder create respective target pipeline folders.
 
 .PARAMETER CreateBuildValidation
 Optional. Create an additional pull request build validation rule for the pipelines.
@@ -157,8 +157,10 @@ function Register-AzureDevOpsPipeline {
 
         if ($CreateSubFolders) {
             $FolderPath = ($PipelineTargetPath + $localPipelinePath.DirectoryName.Split("$PipelineTargetPath")[-1])
+            $ymlPath = ($relativePipelinePath + $localPipelinePath.FullName.Split("$PipelineTargetPath")[-1])
         } else {
             $FolderPath = $PipelineTargetPath
+            $ymlPath = Join-Path $relativePipelinePath (Split-Path $localPipelinePath -Leaf)
         }
 
         $pipelinesArray += @{
@@ -166,10 +168,12 @@ function Register-AzureDevOpsPipeline {
             SourceRepository = $SourceRepository
             BranchName       = $BranchName
             FolderPath       = $FolderPath
-            ymlPath          = Join-Path $relativePipelinePath (Split-Path $localPipelinePath -Leaf)
+            ymlPath          = $ymlPath
             pipelineName     = $pipelineName
         }
     }
+
+    Write-Output $pipelinesArray
 
     Write-Verbose '###############'
     Write-Verbose '# Remote Data #'
