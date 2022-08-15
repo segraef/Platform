@@ -6,7 +6,7 @@ trigger:
   batch: true
   branches:
     include:
-      - pipelineorchestrated
+      - main
   paths:
     include:
       - root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-identity-ae (99802d97-d853-436a-880c-8382eda5b974)/prfx-id-nw-rg/*
