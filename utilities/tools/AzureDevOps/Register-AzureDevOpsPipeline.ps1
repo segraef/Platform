@@ -154,7 +154,6 @@ function Register-AzureDevOpsPipeline {
     foreach ($localPipelinePath in $localPipelinePaths) {
         $line = (Get-Content -Path $localPipelinePath.FullName)[0]
         $pipelineName = ($line -split 'name:')[1].Replace("'", '').Trim()
-        $ymlPath = Join-Path $relativePipelinePath (Split-Path $localPipelinePath.DirectoryName -Leaf)
 
         if ($CreateSubFolders) {
             $FolderPath = ($PipelineTargetPath + $localPipelinePath.DirectoryName.Split("$PipelineTargetPath")[-1])
@@ -167,11 +166,9 @@ function Register-AzureDevOpsPipeline {
             SourceRepository = $SourceRepository
             BranchName       = $BranchName
             FolderPath       = $FolderPath
-            ymlPath          = $ymlPath
+            ymlPath          = Join-Path $relativePipelinePath (Split-Path $localPipelinePath -Leaf)
             pipelineName     = $pipelineName
         }
-
-
     }
 
     Write-Verbose '###############'
