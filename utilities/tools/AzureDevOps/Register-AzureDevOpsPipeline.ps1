@@ -55,6 +55,10 @@ Defaults to 'Modules'
 Optional. The relative local path to the folder with the pipeline YAML files. Make sure your workspace is opened in the repository root.
 Defaults to '.azuredevops/modulePipelines'.
 
+.PARAMETER PipelineFilter
+Optional. The filter criteria of the pipeline files like the extension '*.yml', 'pipeline.yml' or '*.yaml'.
+Defaults to '*.yml'.
+
 .PARAMETER CreateBuildValidation
 Optional. Create an additional pull request build validation rule for the pipelines.
 
@@ -126,6 +130,9 @@ function Register-AzureDevOpsPipeline {
         [string] $RelativePipelinePath = '.azuredevops/modulePipelines',
 
         [Parameter(Mandatory = $false)]
+        [string] $PipelineFilter = '*.yml',
+
+        [Parameter(Mandatory = $false)]
         [bool] $CreateBuildValidation = $false
     )
 
@@ -134,7 +141,7 @@ function Register-AzureDevOpsPipeline {
     Write-Verbose '##############'
     Write-Verbose 'Identify relevant Azure Pipelines to be updated'
 
-    $localPipelinePaths = (Get-ChildItem -Path $RelativePipelinePath -Recurse -Filter '*.yml').FullName
+    $localPipelinePaths = (Get-ChildItem -Path $RelativePipelinePath -Recurse -Filter $PipelineFilter).FullName
     Write-Verbose ('Found [{0}] local Pipeline(s) in folder path [{1}]' -f $localPipelinePaths.Count, $RelativePipelinePath)
 
     $pipelinesArray = @()
@@ -204,7 +211,7 @@ function Register-AzureDevOpsPipeline {
         }
 
         if ($createBuildValidation) {
-            $AzureDevOpsPAThFilter = $pipeline.ymlpath -replace 'pipeline.yml', '*'
+            $AzureDevOpsPathFilter = $pipeline.ymlpath -replace 'pipeline.yml', '*'
             Write-Verbose ('Configuring build validation rule for pipeline [{0}]' -f $pipeline.pipelineName)
             $inputObject = @(
                 '--blocking', $true,
@@ -214,7 +221,7 @@ function Register-AzureDevOpsPipeline {
                 '--manual-queue-only', $true,
                 '--queue-on-source-update-only', $true,
                 '--valid-duration', 1440,
-                '--path-filter', $AzureDevOpsPAThFilter,
+                '--path-filter', $AzureDevOpsPathFilter,
                 '--repository-id', $pipelineobject.repository.id,
                 '--enabled', $true
             )
