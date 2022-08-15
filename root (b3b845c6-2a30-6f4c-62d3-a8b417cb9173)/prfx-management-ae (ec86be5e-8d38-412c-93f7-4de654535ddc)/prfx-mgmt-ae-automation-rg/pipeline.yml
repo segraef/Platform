@@ -1,4 +1,4 @@
-name: $(resourceGroupName)
+name: 'prfx-mgmt-ae-automation-rg'
 
 trigger:
   branches:
