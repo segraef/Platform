@@ -20,7 +20,7 @@ resources:
   - repository: modules
     name: $(modulesRepository)
     ref: $(ref)
-    endpoint: 'segraef/Platform'
+    endpoint: segraef
     type: github
 
 stages:
