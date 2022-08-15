@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "pe-test-wus-DSCAndHybridWorker-001"
+        },
+        "location": {
+            "value": "Eastus"
+        },
+        "targetSubnetResourceId": {
+            "value": "subscriptions/b3a91daa-5432-499b-aec9-11a9e1ad4d1e/resourceGroups/prfx-test-ae-network-rg/providers/Microsoft.Network/virtualNetworks/prfx-test-ae-spoke-vnet01/subnets/pe"
+        },
+        "serviceResourceId": {
+            "value": "/subscriptions/b3a91daa-5432-499b-aec9-11a9e1ad4d1e/resourceGroups/prfx-test-wus-automation-rg/providers/Microsoft.Automation/automationAccounts/prfx-test-wus-aa001"
+        },
+        "groupId": {
+            "value": [
+                "DSCAndHybridWorker"
+            ]
+        },
+        "privateDnsZoneGroups": {
+            "value": [{
+                "privateDNSResourceIds": [
+                    "/subscriptions/<<subscriptionid>>/resourceGroups/prfx-id-ae-network-rg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
+                ]
+            }]
+        }
+    }
+}

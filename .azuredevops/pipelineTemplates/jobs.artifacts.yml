@@ -1,0 +1,99 @@
+variables:
+  # Artifacts Feed
+  artifactFeedPath: '$(System.Teamproject)/ResourceModules'
+  packagePath: ResourceModules
+  downloadDirectory: $(Build.SourcesDirectory)/$(packagePath)
+
+  # Artifacts
+  RGModuleName: 'Microsoft.resources.resourcegroups'
+  RGModuleVersion: '*'
+
+  VnetModuleName: 'Microsoft.Network.virtualnetworks'
+  VnetModuleVersion: '*'
+
+  RouteTablesModuleName: 'Microsoft.Network.RouteTables'
+  RouteTablesModuleVersion: '*'
+
+  NsgModuleName: 'Microsoft.Network.networksecuritygroups'
+  NsgModuleVersion: '*'
+
+  AzureBastionModuleName: 'Microsoft.Network.bastionhosts'
+  AzureBastionModuleVersion: '*'
+
+  NetworkWatcherModuleName: 'Microsoft.Network.networkWatchers'
+  NetworkWatcherModuleVersion: '*'
+
+  StorageAccountsModuleName: 'Microsoft.Storage.storageAccounts'
+  StorageAccountsModuleVersion: '*'
+
+  KVModuleName: 'Microsoft.keyvault.vaults'
+  KVModuleVersion: '*'
+
+  VMModuleName: 'Microsoft.compute.virtualmachines'
+  VMModuleVersion: '*'
+
+  PEModuleName: 'microsoft.network.privateendpoints'
+  PEModuleVersion: '*'
+
+  SQLMIModuleName: 'Microsoft.sql.managedinstances'
+  SQLMIModuleVersion: '*'
+
+  PolicyAssignmentRGModuleName: 'Microsoft.Authorization.policyAssignments.resourcegroup'
+  PolicyAssignmentRGModuleVersion: '*'
+
+  PolicyAssignmentSubModuleName: 'Microsoft.Authorization.policyAssignments.subscription'
+  PolicyAssignmentSubModuleVersion: '*'
+
+  AVDWorkspaceModuleName: 'microsoft.desktopvirtualization.workspaces'
+  AVDWorkspaceModuleVersion: '*'
+
+  AVDHostpoolsModuleName: 'microsoft.desktopvirtualization.hostpools'
+  AVDHostpoolsModuleVersion: '*'
+
+  AVDAppgroupsModuleName: 'microsoft.desktopvirtualization.applicationgroups'
+  AVDAppgroupsModuleVersion: '*'
+
+  AVDImageBuilderModuleName: 'microsoft.virtualmachineimages.imagetemplates'
+  AVDImageBuilderModuleVersion: '*'
+
+  AVDGalleriesModuleName: 'microsoft.compute.galleries'
+  AVDGalleriesModuleVersion: '*'
+
+  AVDImagesModuleName: 'microsoft.compute.images'
+  AVDImagesModuleVersion: '*'
+
+  RSVModuleName: 'Microsoft.recoveryservices.vaults'
+  RSVModuleVersion: '*'
+
+  LogAnalyticsModuleName: 'Microsoft.OperationalInsights.workspaces'
+  LogAnalyticsModuleVersion: '*'
+
+  PrivatelinkScopeModuleName: 'microsoft.insights.privatelinkscopes'
+  PrivatelinkScopeModuleVersion: '*'
+
+  RBACModuleName: 'Microsoft.authorization.roleassignments.resourcegroup'
+  RBACModuleVersion: '*'
+
+  AAModuleName: 'Microsoft.automation.automationaccounts'
+  AAModuleVersion: '*'
+
+  ActionGroupModuleName: 'Microsoft.Insights.actionGroups'
+  ActionGroupModuleVersion: '*'
+
+  MetricAlertModuleName: 'Microsoft.Insights.metricAlerts'
+  MetricAlertModuleVersion: '*'
+
+  ScheduledQueryModuleName: 'Microsoft.Insights.scheduledQueryRules'
+  ScheduledQueryModuleVersion: '*'
+
+  ApplicationGatewaysModuleName: 'microsoft.network.applicationgateways'
+  ApplicationGatewaysModuleVersion: '*'
+
+  UAIModuleName: 'microsoft.managedidentity.userassignedidentities'
+  UAIModuleVersion: '*'
+
+  PIPModuleName: 'microsoft.network.publicipaddresses'
+  PIPModuleVersion: '*'
+
+  ActivitylogalertModuleName: 'microsoft.insights.activitylogalerts'
+  ActivitylogalertModuleVersion: '*'

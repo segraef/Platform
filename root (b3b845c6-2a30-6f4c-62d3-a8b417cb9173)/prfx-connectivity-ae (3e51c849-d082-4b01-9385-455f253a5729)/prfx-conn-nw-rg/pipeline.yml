@@ -1,37 +1,67 @@
-name: $(resourceGroupName)
+name: 'prfx-conn-nw-rg'
+
+pr: none
 
 trigger:
+  batch: true
   branches:
     include:
-      - main
+      - pipelineorchestrated
   paths:
     include:
-      - root/prfx-connectivity-ae-01 (eda24dea-c2b6-4339-b351-21fd78577b4c)/prfx-conn-nw-rg/*
+      - root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-connectivity-ae (3e51c849-d082-4b01-9385-455f253a5729)/prfx-conn-nw-rg/*
 
 variables:
+  - template: /global.variables.yml
   - template: pipeline.variables.yml
-  - template: /.pipelines/.templates/pipeline.artifacts.yml
+
+resources:
+  repositories:
+  - repository: modules
+    name: $(modulesRepository)
+    ref: $(ref)
+    endpoint: segraef
+    type: github
 
 stages:
-  - stage: Plan
+  - stage:
+    displayName: WhatIf
     jobs:
-      - template: ./pipeline.jobs.yml
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          vmImage: '$(vmImage)'
-          poolName: '$(poolName)'
-          serviceConnection: '$(serviceConnection)'
-          resourceGroupName: '$(resourceGroupName)'
-          parameterFilePath: ''
-          environment: CONN
+          jobName: resourceGroups
+          displayName: 'Resource Group'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           whatif: true
-  - stage: Deployment
-    jobs:
-      - template: ./pipeline.jobs.yml
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          vmImage: '$(vmImage)'
-          poolName: '$(poolName)'
-          serviceConnection: '$(serviceConnection)'
-          resourceGroupName: '$(resourceGroupName)'
-          parameterFilePath: ''
-          environment: CONN
-          whatif: false
+          jobName: networkWatchers
+          displayName: 'Network Watchers'
+          modulePath: '/modules/Microsoft.Network/networkWatchers/'
+          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/parameters.json'
+          whatif: true
+          checkoutRepositories:
+            - modules
+
+  - stage:
+    displayName: Deploy
+    jobs:
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: resourceGroups
+          displayName: 'Resource Group'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          checkoutRepositories:
+            - modules
+      - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
+        parameters:
+          jobName: networkWatchers
+          displayName: 'Network Watchers'
+          modulePath: '/modules/Microsoft.Network/networkWatchers/'
+          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/parameters.json'
+          checkoutRepositories:
+            - modules
