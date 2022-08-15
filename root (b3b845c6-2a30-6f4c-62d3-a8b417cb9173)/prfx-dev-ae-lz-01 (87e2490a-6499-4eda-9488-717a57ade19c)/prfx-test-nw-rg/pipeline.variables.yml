@@ -1,7 +1,0 @@
-variables:
-  resourceGroupName: 'prfx-test-nw-rg'
-  environmentPath: 'root/prfx-test-ae-lz-02 (b3a91daa-5432-499b-aec9-11a9e1ad4d1e)'
-  location: 'Australia East'
-  vmImage: 'ubuntu-latest'
-  poolName: 'prfx-NonProd-WindowsPool-001'
-  serviceConnection: 'prfx-test-lz-sp'

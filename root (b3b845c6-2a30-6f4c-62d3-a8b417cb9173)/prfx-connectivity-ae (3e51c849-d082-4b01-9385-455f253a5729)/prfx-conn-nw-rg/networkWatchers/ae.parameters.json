@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "prfx-conn-wus-nw"
+            "value": "prfx-conn-ae-nw"
         },
         "location": {
             "value": "ae"

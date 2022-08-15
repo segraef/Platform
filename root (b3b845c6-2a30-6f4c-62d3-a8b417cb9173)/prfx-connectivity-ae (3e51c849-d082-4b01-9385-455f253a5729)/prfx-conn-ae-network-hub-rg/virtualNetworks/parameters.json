@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "prfx-dev-ae-spoke-vnet01"
+            "value": "prfx-con-ae-spoke-vnet01"
         },
         "addressPrefixes": {
             "value": [
@@ -16,7 +16,7 @@
                 "addressPrefix": "10.5.48.0/24",
                 "networkSecurityGroupId": "/subscriptions/47041275-ef6a-42af-a770-ee0fb2227eec/resourceGroups/prfx-conn-ae-network-hub-rg/providers/Microsoft.Network/networkSecurityGroups/prfx-az-nsg-hub-001",
                 "serviceEndpoints": [],
-                "routeTableId": "/subscriptions/47041275-ef6a-42af-a770-ee0fb2227eec/resourceGroups/prfx-conn-ae-network-hub-rg/providers/Microsoft.Network/routeTables/dev-spoke-to-hub-firewall"
+                "routeTableId": "/subscriptions/47041275-ef6a-42af-a770-ee0fb2227eec/resourceGroups/prfx-conn-ae-network-hub-rg/providers/Microsoft.Network/routeTables/con-spoke-to-hub"
             }]
         }
     }

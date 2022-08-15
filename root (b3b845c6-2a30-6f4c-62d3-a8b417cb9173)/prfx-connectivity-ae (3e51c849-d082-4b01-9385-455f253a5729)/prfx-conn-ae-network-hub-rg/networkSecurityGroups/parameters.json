@@ -7,12 +7,12 @@
         },
         "securityRules": {
             "value": [{
-                "name": "SSH",
+                "name": "HTTPS",
                 "properties": {
-                    "description": "SSH",
+                    "description": "HTTPS",
                     "protocol": "*",
                     "sourcePortRange": "*",
-                    "destinationPortRange": "22",
+                    "destinationPortRange": "443",
                     "sourceAddressPrefix": "*",
                     "destinationAddressPrefix": "*",
                     "access": "Allow",
@@ -20,12 +20,12 @@
                     "direction": "Inbound"
                 }
             }, {
-                "name": "RDP",
+                "name": "HTTPS2",
                 "properties": {
-                    "description": "RDP",
+                    "description": "HTTPS2",
                     "protocol": "*",
                     "sourcePortRange": "*",
-                    "destinationPortRange": "3389",
+                    "destinationPortRange": "8443",
                     "sourceAddressPrefix": "*",
                     "destinationAddressPrefix": "*",
                     "access": "Allow",

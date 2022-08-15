@@ -1,4 +1,4 @@
-name: $(resourceGroupName)
+name: prfx-conn-ae-network-hub-rg
 
 pr: none
 
@@ -7,9 +7,9 @@ trigger:
   branches:
     include:
       - pipelineorchestrated
-  # paths:
-  #   include:
-  #     - root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-connectivity-ae (3e51c849-d082-4b01-9385-455f253a5729)/prfx-conn-ae-network-hub-rg/*
+  paths:
+    include:
+      - root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-connectivity-ae (3e51c849-d082-4b01-9385-455f253a5729)/prfx-conn-ae-network-hub-rg/*
 
 variables:
   - template: /global.variables.yml
@@ -29,7 +29,7 @@ stages:
     jobs:
       - template: /.azuredevops/pipelineTemplates/jobs.solution.deploy.yml
         parameters:
-          jobName: rg
+          jobName: resourceGroups
           displayName: 'Resource Group'
           modulePath: '/modules/Microsoft.Resources/resourceGroups/'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'

@@ -1,7 +1,9 @@
 variables:
-  resourceGroupName: 'prfx-conn-ae-network-rg'
-  environmentPath: 'root/prfx-connectivity-ae-01 (<<subscriptionid>>)'
+  resourceGroupName: 'prfx-conn-ae-network-hub-rg'
+  environmentPath: 'root (b3b845c6-2a30-6f4c-62d3-a8b417cb9173)/prfx-connectivity-ae (3e51c849-d082-4b01-9385-455f253a5729)'
   location: 'Australia East'
   vmImage: 'ubuntu-latest'
-  poolName: 'prfx-Prod-WindowsPool-001'
-  serviceConnection: 'prfx-connectivity-lz-sp'
+  poolName: ''
+  serviceConnection: 'graef.io'
+  subscriptionId: '47041275-ef6a-42af-a770-ee0fb2227eec'
+  managementGroupId: ''

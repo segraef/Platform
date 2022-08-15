@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "dev-spoke-to-hub-firewall"
+            "value": "con-spoke-to-hub"
         },
         "routes": {
             "value": [{
