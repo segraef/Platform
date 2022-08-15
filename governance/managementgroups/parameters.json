@@ -2,26 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "name": {
-            "value": "testMG"
-        },
-        "displayName": {
-            "value": "Test MG"
-        },
-        "parentId": {
-            "value": "284a3525-0ec7-454c-8a03-90ed7e7a68ce"
-        }
-    }
-}
-
-
-{
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "metadata": {
-        "template": "./main.json"
-    },
-    "parameters": {
         "tier1MgmtGroups": {
             "value": [{
                 "id": "284a3525-0ec7-454c-8a03-90ed7e7a68ce",
