@@ -1,0 +1,22 @@
+{
+    "cloud": {
+      "credentialPrecedence": [
+        "AzureCLI",
+        "AzurePowerShell",
+        "ManagedIdentity"
+      ]
+    },
+    "moduleAliases": {
+        "br": {
+          "ResourceModules": {
+            "registry": "adpsxxazacrx009.azurecr.io"
+          }
+        },
+        "ts": {
+          "ResourceModules": {
+            "subscription": "47041275-ef6a-42af-a770-ee0fb2227eec",
+            "resourceGroup": "artifacts-rg"
+          }
+        }
+      }
+}

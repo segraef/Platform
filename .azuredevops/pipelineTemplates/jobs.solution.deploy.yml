@@ -203,10 +203,10 @@ jobs:
                     $managementGroupId = '${{ parameters.managementGroupId }}'
 
                     #Prioritizing the bicep file
-                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                    if (-not (Test-Path $moduleTemplateFilePath)) {
-                      $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                    }
+                    # $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
+                    # if (-not (Test-Path $moduleTemplateFilePath)) {
+                    #   $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
+                    # }
 
                     # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
                     $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
