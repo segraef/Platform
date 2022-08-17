@@ -3,7 +3,7 @@ variables:
   artifactFeedPath: '$(System.Teamproject)/ResourceModules'
   packagePath: modules
   downloadDirectory: $(Build.SourcesDirectory)/$(packagePath)
-  moduleVersion: '0.5.1296-prerelease'
+  moduleVersion: '*'
 
   # Artifacts
   RGModuleName: 'microsoft.resources.resourcegroups'
