@@ -57,6 +57,7 @@ parameters:
   vmImage: '$(vmImage)'
   defaultJobTimeoutInMinutes: 120
   whatif: false
+
   # Logic-related parameters
   removeDeployment: false
   templateFilePath: ''
@@ -67,6 +68,7 @@ parameters:
   resourceGroupName: '$(resourceGroupName)'
   subscriptionId: '$(subscriptionId)'
   managementGroupId: '$(managementGroupId)'
+
   # Azure PowerShell Version parameters
   azurePowerShellVersion: '$(azurePowerShellVersion)'
   preferredAzurePowerShellVersion: '$(preferredAzurePowerShellVersion)'
@@ -136,41 +138,6 @@ jobs:
                         Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
                         Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
 
-            # [Agent] Prepare environment
-            #----------------------------
-            - pwsh: 'env | sort'
-              enabled: false
-            - task: PowerShell@2
-              displayName: 'Setup agent for deployment'
-              enabled: false
-              inputs:
-                targetType: inline
-                pwsh: true
-                script: |
-                  # Load used functions
-                  . (Join-Path '$(ENVSOURCEDIRECTORY)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
-
-                  # Define PS modules to install on the runner
-                  $Modules = @(
-                      @{ Name = 'Az.Accounts' },
-                      @{ Name = 'Az.Resources' }
-                  )
-
-                  # Additional PS modules need to be installed for the removal step in case it is enabled
-                  if ('${{ parameters.removeDeployment}}' -eq 'true') {
-                    $Modules += @(
-                      @{ Name = 'Az.CognitiveServices' },
-                      @{ Name = 'Az.Compute' },
-                      @{ Name = 'Az.KeyVault' },
-                      @{ Name = 'Az.Monitor' },
-                      @{ Name = 'Az.OperationalInsights' },
-                      @{ Name = 'Az.RecoveryServices' }
-                    )
-                  }
-
-                  # Set agent up
-                  Set-EnvironmentOnAgent -PSModules $Modules
-
             # [Download Azure Artifacts] task(s)
             #---------------------
             - ${{ if ne(parameters.moduleName, '') }}:
@@ -179,10 +146,6 @@ jobs:
                   Write-Host "##vso[task.setVariable variable=lowerModuleName]$lowerModuleName"
 
                   $modulePath = Join-Path '$(downloadDirectory)/${{ parameters.moduleName }}' 'deploy.json'
-
-                  Write-Verbose "Got path: $modulePath" -Verbose
-                  Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
-                  Get-ChildItem $(downloadDirectory) -recurse
 
                   Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
                 displayName: 'Prepare download from artifacts feed'
@@ -198,7 +161,6 @@ jobs:
             # [Validation] task(s)
             #---------------------
             - ${{ if eq( parameters.whatif, true) }}:
-              - pwsh: gci -recurse | select Fullname
               - task: AzurePowerShell@5
                 displayName: 'Validate template file via connection [${{ parameters.serviceConnection }}]'
                 inputs:

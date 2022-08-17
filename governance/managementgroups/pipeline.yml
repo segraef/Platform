@@ -31,7 +31,7 @@ stages:
         parameters:
           jobName: resourceGroups
           displayName: 'Resource Group'
-          modulePath: 'governance/managementgroups/'
+          modulePath: 'governance/managementgroups/deploy.bicep'
           moduleTestFilePath: 'parameters.json'
           whatif: true
           checkoutRepositories:
@@ -44,7 +44,7 @@ stages:
         parameters:
           jobName: resourceGroups
           displayName: 'Resource Group'
-          modulePath: 'governance/managementgroups/'
+          modulePath: 'governance/managementgroups/deploy.bicep'
           moduleTestFilePath: 'parameters.json'
           checkoutRepositories:
             - modules
