@@ -202,13 +202,6 @@ jobs:
 
                     $moduleTestFilePath = Join-Path '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
-                    if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
-                        $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
-                        $moduleTemplatePossibleParameters = $moduleTemplateContent.parameters.Keys
-                    } else {
-                        $moduleTemplatePossibleParameters = ((Get-Content $moduleTemplateFilePath -Raw) | ConvertFrom-Json -AsHashtable).parameters.keys
-                    }
-
                     # ----------- #
                     # INVOKE TEST #
                     # ----------- #
@@ -251,13 +244,6 @@ jobs:
                     $managementGroupId = '${{ parameters.managementGroupId }}'
 
                     $moduleTestFilePath = Join-Path '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
-
-                    if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
-                        $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
-                        $moduleTemplatePossibleParameters = $moduleTemplateContent.parameters.Keys
-                    } else {
-                        $moduleTemplatePossibleParameters = ((Get-Content $moduleTemplateFilePath -Raw) | ConvertFrom-Json -AsHashtable).parameters.keys
-                    }
 
                     # ----------- #
                     # INVOKE TEST #
