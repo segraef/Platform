@@ -38,7 +38,8 @@ function Get-ScopeOfTemplateFile {
         }
     } else {
         # ARM
-        gci -recurse | select FullName
+        $x = gci -recurse | select FullName
+        Write-Verbose ($x | Out-String) -Verbose
         $armSchema = (ConvertFrom-Json (Get-Content -Raw -Path $templateFilePath)).'$schema'
         switch -regex ($armSchema) {
             '\/deploymentTemplate.json#$' { $deploymentScope = 'resourcegroup' }
