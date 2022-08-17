@@ -31,7 +31,7 @@ stages:
         parameters:
           jobName: resourceGroups
           displayName: 'Resource Group'
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           whatif: true
           checkoutRepositories:
@@ -44,7 +44,7 @@ stages:
         parameters:
           jobName: resourceGroups
           displayName: 'Resource Group'
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
