@@ -27,7 +27,7 @@ param authForNewMG bool = true
 @description('Optional. Indicates whether Settings for default MG for new subscription and permissions for creating new MGs are configured. This configuration is applied on Tenant Root MG.')
 param configMGSettings bool = false
 
-module mg_hierarchy 'module/main.bicep' = {
+module mg_hierarchy 'module/nested_main.bicep' = {
   name: 'management_groups'
   params: {
     tier1MgmtGroups: tier1MgmtGroups
