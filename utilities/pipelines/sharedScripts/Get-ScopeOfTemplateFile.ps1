@@ -27,10 +27,6 @@ function Get-ScopeOfTemplateFile {
         [string] $TemplateFilePath
     )
 
-    Write-Verbose $templateFilePath -Verbose
-    $x = gci -recurse -filter '*.bicep*' | select FullName
-    Write-Verbose ($x | Out-String) -Verbose
-
     if ((Split-Path $templateFilePath -Extension) -eq '.bicep') {
         # Bicep
         $bicepContent = Get-Content $templateFilePath -Raw
