@@ -47,6 +47,8 @@ parameters:
   # Pipeline-related parameters
   jobName: ''
   displayName: ''
+  moduleName: ''
+  moduleVersion: '$(moduleVersion)'
   checkoutRepositories: ''
   environment: 'DEV'
   serviceConnection: '$(serviceConnection)'
@@ -170,7 +172,11 @@ jobs:
 
             # [Download Azure Artifacts] task(s)
             #---------------------
-            - ${{ if ne(parameters.artifactFeedPath, '') }}:
+            - ${{ if ne(parameters.moduleName, '') }}:
+              - pwsh : |
+                  $lowerModuleName = "${{ parameters.moduleName }}".ToLower()
+                  Write-Host "##vso[task.setVariable variable=lowerModuleName]$lowerModuleName"
+                displayName: 'Prepare download from artifacts feed'
               - task: UniversalPackages@0
                 displayName: 'Download module [${{ parameters.moduleName }}] version [${{ parameters.moduleVersion }}] from feed [${{ parameters.artifactFeedPath }}]'
                 inputs:
