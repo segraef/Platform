@@ -98,7 +98,7 @@ jobs:
             # [Environment Variables] task(s)
             #--------------------------------
             - pwsh: |
-                $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
+                $modulePath = (Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}')
                 $sourceDirectory = $(System.DefaultWorkingDirectory)
                 Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
                 Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
