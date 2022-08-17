@@ -198,6 +198,7 @@ jobs:
             # [Validation] task(s)
             #---------------------
             - ${{ if eq( parameters.whatif, true) }}:
+              - pwsh: gci -path '/home/vsts/work/1/s/' -recurse
               - task: AzurePowerShell@5
                 displayName: 'Validate template file via connection [${{ parameters.serviceConnection }}]'
                 inputs:
