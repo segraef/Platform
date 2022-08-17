@@ -208,7 +208,7 @@ jobs:
 
                     # Building input object
                     $functionInput = @{
-                        templateFilePath     = $(ENVMODULEPATH)
+                        templateFilePath     = '$(ENVMODULEPATH)'
                         parameterFilePath    = $moduleTestFilePath
                         location             = $location
                         resourceGroupName    = $resourceGroupName
@@ -251,7 +251,7 @@ jobs:
 
                     # Building input object
                     $functionInput = @{
-                        templateFilePath     = $(ENVMODULEPATH)
+                        templateFilePath     = '$(ENVMODULEPATH)'
                         parameterFilePath    = $moduleTestFilePath
                         location             = $location
                         resourceGroupName    = $resourceGroupName
@@ -306,7 +306,7 @@ jobs:
                     . (Join-Path '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
 
                     $functionInput = @{
-                      TemplateFilePath  = $(ENVMODULEPATH)
+                      TemplateFilePath  = '$(ENVMODULEPATH)'
                       ResourceGroupName = '${{ parameters.resourceGroupName }}'
                       subscriptionId    = '${{ parameters.subscriptionId }}'
                       ManagementGroupId = '${{ parameters.managementGroupId }}'
