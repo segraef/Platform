@@ -194,7 +194,7 @@ jobs:
             # [Validation] task(s)
             #---------------------
             - ${{ if eq( parameters.whatif, true) }}:
-              - pwsh: gci -recurse | select Fullname
+              - pwsh: $(Build.SourcesDirectory)/$(packagePath);gci -recurse | select Fullname
               - task: AzurePowerShell@5
                 displayName: 'Validate template file via connection [${{ parameters.serviceConnection }}]'
                 inputs:

@@ -17,7 +17,6 @@ variables:
   modulesRepository: Azure/ResourceModules # The repository hosting the deployment code.
   ref: 'main'
   pipelineFunctionsPath: 'utilities/pipelines'
-  artifactFeedPath: ResourceModules
 
   ######################################
   # Azure PowerShell Version
