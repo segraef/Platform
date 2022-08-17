@@ -208,7 +208,7 @@ jobs:
 
                     # Building input object
                     $functionInput = @{
-                        templateFilePath     = $moduleTemplateFilePath
+                        templateFilePath     = $(ENVMODULEPATH)
                         parameterFilePath    = $moduleTestFilePath
                         location             = $location
                         resourceGroupName    = $resourceGroupName
