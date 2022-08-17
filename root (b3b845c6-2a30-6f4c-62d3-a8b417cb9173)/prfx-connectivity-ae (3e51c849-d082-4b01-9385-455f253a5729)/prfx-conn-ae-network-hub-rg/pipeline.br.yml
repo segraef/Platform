@@ -14,7 +14,7 @@ trigger:
 variables:
   - template: /settings.yml
   - template: pipeline.variables.yml
-  - template: jobs.artifacts.variables.yml
+  - template: /.azuredevops/pipelineTemplates/jobs.artifacts.variables.yml
 
 stages:
   - stage:
