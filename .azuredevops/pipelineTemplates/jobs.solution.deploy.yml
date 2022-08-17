@@ -49,6 +49,7 @@ parameters:
   displayName: ''
   moduleName: ''
   moduleVersion: '$(moduleVersion)'
+  artifactFeedPath: '$(artifactFeedPath)'
   checkoutRepositories: ''
   environment: 'DEV'
   serviceConnection: '$(serviceConnection)'
