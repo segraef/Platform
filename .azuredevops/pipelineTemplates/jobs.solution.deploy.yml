@@ -178,11 +178,7 @@ jobs:
                   $lowerModuleName = "${{ parameters.moduleName }}".ToLower()
                   Write-Host "##vso[task.setVariable variable=lowerModuleName]$lowerModuleName"
 
-                  $modulePath = Join-Path '$(downloadDirectory)/${{ parameters.moduleName }}' 'deploy.json'
-
-                  Write-Verbose "Got path: $modulePath" -Verbose
-                  Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
-                  Get-ChildItem $(downloadDirectory) -recurse
+                  $modulePath = Join-Path '$(downloadDirectory)/${{ parameters.moduleName }}' 'deploy.bicep'
 
                   Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
                 displayName: 'Prepare download from artifacts feed'
