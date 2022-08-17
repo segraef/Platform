@@ -184,7 +184,6 @@ jobs:
                   Write-Verbose "downloadDirectory: $(downloadDirectory)" -Verbose
                   Get-ChildItem $(downloadDirectory) -recurse
 
-                  $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(environmentPath)' '${{ parameters.modulePath }}'
                   Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
                 displayName: 'Prepare download from artifacts feed'
               - task: UniversalPackages@0
