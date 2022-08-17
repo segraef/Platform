@@ -136,9 +136,10 @@ jobs:
             # [Agent] Prepare environment
             #----------------------------
             - pwsh: 'env | sort'
+              enabled: false
             - task: PowerShell@2
               displayName: 'Setup agent for deployment'
-              enabled: false
+              enabled: true
               inputs:
                 targetType: inline
                 pwsh: true
