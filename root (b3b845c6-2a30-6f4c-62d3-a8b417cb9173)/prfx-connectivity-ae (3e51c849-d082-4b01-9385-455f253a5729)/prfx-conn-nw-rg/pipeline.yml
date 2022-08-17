@@ -62,6 +62,6 @@ stages:
           jobName: networkWatchers
           displayName: 'Network Watchers'
           modulePath: '/modules/Microsoft.Network/networkWatchers/deploy.bicep'
-          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/parameters.json'
+          moduleTestFilePath: '$(resourceGroupName)/networkWatchers/ae.parameters.json'
           checkoutRepositories:
             - modules
