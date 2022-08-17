@@ -95,6 +95,13 @@ jobs:
           ## TEMPLATE LOGIC                              ##
           ##---------------------------------------------##
           steps:
+            # [Environment Variables] task(s)
+            #--------------------------------
+            - pwsh: |
+                $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
+                $sourceDirectory = $(System.DefaultWorkingDirectory)
+                Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
+                Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
             # [Checkout Repositories] task(s)
             #--------------------------------
             - checkout: self
@@ -103,10 +110,9 @@ jobs:
                     - checkout: ${{ checkoutRepository }}
                       fetchDepth: 1 # the depth of commits to ask Git to fetch; if not set defaults to no limit
                       path: 's/${{ checkoutRepository }}'
-
-                # [Multi Repo] Support task
-                #--------------------------
                 - ${{ each checkoutRepository in parameters.checkoutRepositories }}:
+                  # [Multi Repo] Support task
+                  #--------------------------
                   - task: PowerShell@2
                     displayName: Handle Multi-Repo Invocation
                     inputs:
@@ -118,20 +124,12 @@ jobs:
                         # ---------------------------- #
 
                         # Handle multiple-repositories
-                        if( "${{ join(';',parameters.checkoutRepositories) }}".length -gt 0) {
-                          Write-Verbose "Multi-Repo Checkout" -Verbose
-                          $sourceDirectory = '$(Build.Repository.Name)'
-                          $sourceDirectory = $sourceDirectory.Split('/')[-1]
-                          $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '${{ parameters.modulePath }}'
-                          Write-Verbose "modulePath: $modulePath" -Verbose
-                          Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
-                        } else {
-                          Write-Verbose "No Multi-Repo Checkout" -Verbose
-                          $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' '${{ parameters.modulePath }}'
-                          $sourceDirectory = ''
-                          Write-Verbose "modulePath: $modulePath" -Verbose
-                          Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
-                        }
+                        Write-Verbose "Multi-Repo Checkout" -Verbose
+                        $sourceDirectory = '$(Build.Repository.Name)'
+                        $sourceDirectory = $sourceDirectory.Split('/')[-1]
+                        $modulePath = Join-Path '$(System.DefaultWorkingDirectory)' ${{ checkoutRepository }} '${{ parameters.modulePath }}'
+                        Write-Verbose "modulePath: $modulePath" -Verbose
+                        Write-Verbose "sourceDirectory: $sourceDirectory" -Verbose
                         Write-Output "##vso[task.setvariable variable=ENVMODULEPATH]$modulePath"
                         Write-Output "##vso[task.setvariable variable=ENVSOURCEDIRECTORY]$sourceDirectory"
 
@@ -146,7 +144,7 @@ jobs:
                 pwsh: true
                 script: |
                   # Load used functions
-                  . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
+                  . (Join-Path '$(ENVSOURCEDIRECTORY)' 'utilities' 'pipelines' 'sharedScripts' 'Set-EnvironmentOnAgent.ps1')
 
                   # Define PS modules to install on the runner
                   $Modules = @(
@@ -194,7 +192,7 @@ jobs:
                   pwsh: true
                   inline: |
                     # Load used functions
-                    . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
+                    . (Join-Path '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'Test-TemplateDeployment.ps1')
 
                     # Fetching parameters
                     $location = '${{ parameters.location }}'
@@ -202,14 +200,7 @@ jobs:
                     $subscriptionId = '${{ parameters.subscriptionId }}'
                     $managementGroupId = '${{ parameters.managementGroupId }}'
 
-                    #Prioritizing the bicep file
-                    # $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                    # if (-not (Test-Path $moduleTemplateFilePath)) {
-                    #   $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                    # }
-
-                    # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
-                    $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
+                    $moduleTestFilePath = Join-Path '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
                     if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                         $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
@@ -252,21 +243,14 @@ jobs:
                   ScriptType: InlineScript
                   inline: |
                     # Load used functions
-                    . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
+                    . (Join-Path '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceDeployment' 'New-TemplateDeployment.ps1')
 
                     $location = '${{ parameters.location }}'
                     $resourceGroupName = '${{ parameters.resourceGroupName }}'
                     $subscriptionId = '${{ parameters.subscriptionId }}'
                     $managementGroupId = '${{ parameters.managementGroupId }}'
 
-                    #Prioritizing the bicep file
-                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                    if (-not (Test-Path $moduleTemplateFilePath)) {
-                      $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                    }
-
-                    # $moduleTemplateFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVMODULEPATH)' '${{ parameters.templateFilePath }}'
-                    $moduleTestFilePath = Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
+                    $moduleTestFilePath = Join-Path '$(ENVSOURCEDIRECTORY)' '$(environmentPath)' '${{ parameters.moduleTestFilePath }}'
 
                     if ((Split-Path $moduleTemplateFilePath -Extension) -eq '.bicep') {
                         $moduleTemplateContent = az bicep build --file $moduleTemplateFilePath --stdout | ConvertFrom-Json -AsHashtable
@@ -333,7 +317,7 @@ jobs:
                   pwsh: true
                   inline: |
                     # Load used function
-                    . (Join-Path '$(System.DefaultWorkingDirectory)' '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
+                    . (Join-Path '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
 
                     #Prioritizing the bicep file
                     $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'

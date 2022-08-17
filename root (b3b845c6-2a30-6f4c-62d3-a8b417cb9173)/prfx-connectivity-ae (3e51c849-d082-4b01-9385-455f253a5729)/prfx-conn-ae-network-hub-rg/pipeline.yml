@@ -31,7 +31,7 @@ stages:
         parameters:
           jobName: resourceGroups
           displayName: 'Resource Group'
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           whatif: true
           checkoutRepositories:
@@ -40,7 +40,7 @@ stages:
         parameters:
           jobName: networkSecurityGroups
           displayName: 'Network Security Groups'
-          modulePath: '/modules/Microsoft.Network/networkSecurityGroups/'
+          modulePath: '/modules/Microsoft.Network/networkSecurityGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/networkSecurityGroups/parameters.json'
           whatif: true
           checkoutRepositories:
@@ -49,7 +49,7 @@ stages:
         parameters:
           jobName: routeTables
           displayName: 'Route Tables'
-          modulePath: '/modules/Microsoft.Network/routeTables/'
+          modulePath: '/modules/Microsoft.Network/routeTables/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/routeTables/parameters.json'
           whatif: true
           checkoutRepositories:
@@ -58,7 +58,7 @@ stages:
         parameters:
           jobName: virtualNetworks
           displayName: 'Virtual Networks'
-          modulePath: '/modules/Microsoft.Network/virtualNetworks/'
+          modulePath: '/modules/Microsoft.Network/virtualNetworks/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/virtualNetworks/parameters.json'
           whatif: true
           checkoutRepositories:
@@ -71,7 +71,7 @@ stages:
         parameters:
           jobName: resourceGroups
           displayName: 'Resource Group'
-          modulePath: '/modules/Microsoft.Resources/resourceGroups/'
+          modulePath: '/modules/Microsoft.Resources/resourceGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           checkoutRepositories:
             - modules
@@ -79,7 +79,7 @@ stages:
         parameters:
           jobName: networkSecurityGroups
           displayName: 'Network Security Groups'
-          modulePath: '/modules/Microsoft.Network/networkSecurityGroups/'
+          modulePath: '/modules/Microsoft.Network/networkSecurityGroups/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/networkSecurityGroups/parameters.json'
           checkoutRepositories:
             - modules
@@ -87,7 +87,7 @@ stages:
         parameters:
           jobName: routeTables
           displayName: 'Route Tables'
-          modulePath: '/modules/Microsoft.Network/routeTables/'
+          modulePath: '/modules/Microsoft.Network/routeTables/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/routeTables/parameters.json'
           checkoutRepositories:
             - modules
@@ -95,7 +95,7 @@ stages:
         parameters:
           jobName: virtualNetworks
           displayName: 'Virtual Networks'
-          modulePath: '/modules/Microsoft.Network/virtualNetworks/'
+          modulePath: '/modules/Microsoft.Network/virtualNetworks/deploy.bicep'
           moduleTestFilePath: '$(resourceGroupName)/virtualNetworks/parameters.json'
           checkoutRepositories:
             - modules
