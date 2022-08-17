@@ -24,7 +24,7 @@ stages:
           jobName: bicep
           displayName: 'Bicep Deployment'
           modulePath: '$(resourceGroupName)/deploy.ts.bicep'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          # moduleTestFilePath: '$(resourceGroupName)/parameters.json'
           whatif: true
 
   - stage:
@@ -35,4 +35,4 @@ stages:
           jobName: bicep
           displayName: 'Bicep Deployment'
           modulePath: '$(resourceGroupName)/deploy.ts.bicep'
-          moduleTestFilePath: '$(resourceGroupName)/parameters.json'
+          # moduleTestFilePath: '$(resourceGroupName)/parameters.json'
