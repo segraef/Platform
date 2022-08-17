@@ -139,7 +139,7 @@ jobs:
               enabled: false
             - task: PowerShell@2
               displayName: 'Setup agent for deployment'
-              enabled: true
+              enabled: false
               inputs:
                 targetType: inline
                 pwsh: true
