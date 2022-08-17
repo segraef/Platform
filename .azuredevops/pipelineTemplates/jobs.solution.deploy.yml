@@ -251,7 +251,7 @@ jobs:
 
                     # Building input object
                     $functionInput = @{
-                        templateFilePath     = $moduleTemplateFilePath
+                        templateFilePath     = $(ENVMODULEPATH)
                         parameterFilePath    = $moduleTestFilePath
                         location             = $location
                         resourceGroupName    = $resourceGroupName
@@ -305,14 +305,8 @@ jobs:
                     # Load used function
                     . (Join-Path '$(ENVSOURCEDIRECTORY)' '$(pipelineFunctionsPath)' 'resourceRemoval' 'Initialize-DeploymentRemoval.ps1')
 
-                    #Prioritizing the bicep file
-                    $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.bicep'
-                    if (-not (Test-Path $moduleTemplateFilePath)) {
-                      $moduleTemplateFilePath = Join-Path -Path '$(ENVMODULEPATH)' -ChildPath 'deploy.json'
-                    }
-
                     $functionInput = @{
-                      TemplateFilePath  = $moduleTemplateFilePath
+                      TemplateFilePath  = $(ENVMODULEPATH)
                       ResourceGroupName = '${{ parameters.resourceGroupName }}'
                       subscriptionId    = '${{ parameters.subscriptionId }}'
                       ManagementGroupId = '${{ parameters.managementGroupId }}'
