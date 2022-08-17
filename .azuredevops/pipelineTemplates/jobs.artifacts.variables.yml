@@ -6,43 +6,43 @@ variables:
   moduleVersion: '0.5.1296-prerelease'
 
   # Artifacts
-  RGModuleName: 'Microsoft.resources.resourcegroups'
+  RGModuleName: 'microsoft.resources.resourcegroups'
   RGModuleVersion: '*'
 
-  VnetModuleName: 'Microsoft.Network.virtualnetworks'
+  VnetModuleName: 'microsoft.Network.virtualnetworks'
   VnetModuleVersion: '*'
 
-  RouteTablesModuleName: 'Microsoft.Network.RouteTables'
+  RouteTablesModuleName: 'microsoft.Network.RouteTables'
   RouteTablesModuleVersion: '*'
 
-  NsgModuleName: 'Microsoft.Network.networksecuritygroups'
+  NsgModuleName: 'microsoft.Network.networksecuritygroups'
   NsgModuleVersion: '*'
 
-  AzureBastionModuleName: 'Microsoft.Network.bastionhosts'
+  AzureBastionModuleName: 'microsoft.Network.bastionhosts'
   AzureBastionModuleVersion: '*'
 
-  NetworkWatcherModuleName: 'Microsoft.Network.networkWatchers'
+  NetworkWatcherModuleName: 'microsoft.Network.networkWatchers'
   NetworkWatcherModuleVersion: '*'
 
-  StorageAccountsModuleName: 'Microsoft.Storage.storageAccounts'
+  StorageAccountsModuleName: 'microsoft.Storage.storageAccounts'
   StorageAccountsModuleVersion: '*'
 
-  KVModuleName: 'Microsoft.keyvault.vaults'
+  KVModuleName: 'microsoft.keyvault.vaults'
   KVModuleVersion: '*'
 
-  VMModuleName: 'Microsoft.compute.virtualmachines'
+  VMModuleName: 'microsoft.compute.virtualmachines'
   VMModuleVersion: '*'
 
   PEModuleName: 'microsoft.network.privateendpoints'
   PEModuleVersion: '*'
 
-  SQLMIModuleName: 'Microsoft.sql.managedinstances'
+  SQLMIModuleName: 'microsoft.sql.managedinstances'
   SQLMIModuleVersion: '*'
 
-  PolicyAssignmentRGModuleName: 'Microsoft.Authorization.policyAssignments.resourcegroup'
+  PolicyAssignmentRGModuleName: 'microsoft.Authorization.policyAssignments.resourcegroup'
   PolicyAssignmentRGModuleVersion: '*'
 
-  PolicyAssignmentSubModuleName: 'Microsoft.Authorization.policyAssignments.subscription'
+  PolicyAssignmentSubModuleName: 'microsoft.Authorization.policyAssignments.subscription'
   PolicyAssignmentSubModuleVersion: '*'
 
   AVDWorkspaceModuleName: 'microsoft.desktopvirtualization.workspaces'
@@ -63,28 +63,28 @@ variables:
   AVDImagesModuleName: 'microsoft.compute.images'
   AVDImagesModuleVersion: '*'
 
-  RSVModuleName: 'Microsoft.recoveryservices.vaults'
+  RSVModuleName: 'microsoft.recoveryservices.vaults'
   RSVModuleVersion: '*'
 
-  LogAnalyticsModuleName: 'Microsoft.OperationalInsights.workspaces'
+  LogAnalyticsModuleName: 'microsoft.OperationalInsights.workspaces'
   LogAnalyticsModuleVersion: '*'
 
   PrivatelinkScopeModuleName: 'microsoft.insights.privatelinkscopes'
   PrivatelinkScopeModuleVersion: '*'
 
-  RBACModuleName: 'Microsoft.authorization.roleassignments.resourcegroup'
+  RBACModuleName: 'microsoft.authorization.roleassignments.resourcegroup'
   RBACModuleVersion: '*'
 
-  AAModuleName: 'Microsoft.automation.automationaccounts'
+  AAModuleName: 'microsoft.automation.automationaccounts'
   AAModuleVersion: '*'
 
-  ActionGroupModuleName: 'Microsoft.Insights.actionGroups'
+  ActionGroupModuleName: 'microsoft.Insights.actionGroups'
   ActionGroupModuleVersion: '*'
 
-  MetricAlertModuleName: 'Microsoft.Insights.metricAlerts'
+  MetricAlertModuleName: 'microsoft.Insights.metricAlerts'
   MetricAlertModuleVersion: '*'
 
-  ScheduledQueryModuleName: 'Microsoft.Insights.scheduledQueryRules'
+  ScheduledQueryModuleName: 'microsoft.Insights.scheduledQueryRules'
   ScheduledQueryModuleVersion: '*'
 
   ApplicationGatewaysModuleName: 'microsoft.network.applicationgateways'
