@@ -27,6 +27,10 @@ function Get-ScopeOfTemplateFile {
         [string] $TemplateFilePath
     )
 
+    Write-Verbose $templateFilePath -Verbose
+    $x = gci -recurse | select FullName
+    Write-Verbose ($x | Out-String) -Verbose
+
     if ((Split-Path $templateFilePath -Extension) -eq '.bicep') {
         # Bicep
         $bicepContent = Get-Content $templateFilePath -Raw
@@ -38,8 +42,6 @@ function Get-ScopeOfTemplateFile {
         }
     } else {
         # ARM
-        $x = gci -recurse | select FullName
-        Write-Verbose ($x | Out-String) -Verbose
         $armSchema = (ConvertFrom-Json (Get-Content -Raw -Path $templateFilePath)).'$schema'
         switch -regex ($armSchema) {
             '\/deploymentTemplate.json#$' { $deploymentScope = 'resourcegroup' }
