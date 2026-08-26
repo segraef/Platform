@@ -1,5 +1,7 @@
 # Platform
 
+[![Scanned with SecKit](https://raw.githubusercontent.com/segraef/sec-kit/main/docs/media/badge.svg)](https://github.com/segraef/sec-kit)
+
 Reference implementation of platform/services with the help of Azure DevOps Pipeline-Orchestration.
 
 ## Status
